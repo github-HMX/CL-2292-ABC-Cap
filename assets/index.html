@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+
+<head>
+   <title>CL ABC Cap</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+   <script type="text/javascript" src="js/browserDetect.js"></script>
+
+   <script type="text/javascript" src="js/ui.js"></script>
+   <script type="text/javascript" src="js/SSE.js"></script>
+   <script type="text/javascript" src="https://content.hmxmedia.com/DIST/webglutils.js"></script>
+   <script type="text/javascript" src="js/ctm.js"></script>
+   <script type="text/javascript" src="js/lzma.js"></script>
+   <script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+   <script type="text/javascript" src="js/jquery-ui-1.8.24.custom.min.js"></script>
+   <script type="text/javascript" src="js/gl_script.js"></script>
+   
+   <!-- <script type="text/javascript" src="js/embroideries.js"></script> -->
+   <script type="text/javascript" src="js/extra.js"></script>
+   
+
+   <script type="text/javascript" src="js/sb.js"></script>
+   <link type="text/css" href="css/jquery-ui-1.8.24.custom.css" rel="stylesheet" />
+   <link href="css/sb.css" rel="stylesheet" type="text/css">
+   <script type="text/javascript" src="js/InfinityRT_Navigation.js"></script>
+   <script type="text/javascript" src="js/RT_Analytics.js"></script>
+
+   <link rel="stylesheet" href="css/skin.css" type="text/css">
+   <style>
+      #btn_hmxBack,
+      #btn_hmxFront,
+      #btn_hmxHero,
+      #btn_hmxLeft,
+      #btn_hmxRight,
+      #btn_hmxTop,
+      #btnDDDisplayLayers,
+      /* #btnDDGotoPos, */
+      #btnDDAnims {
+         /* display: none; */
+      }
+   /* .sweatband-text-div, .custom-text-div, .CustomeLogoBtn, .btnLiningImage, .btnClassButton, .btnClassExtra, .flagPatchContainer{
+      display: none;
+   } */
+      #divRTSkinMain {
+         z-index: 9;
+      }
+
+      .divRTSkin {
+         z-index: 9;
+         display: none;
+      }
+
+      #btn_110,
+      #btn_100,
+      #btn_995 {
+         z-index: 9;
+         display: inline-block;
+      }
+
+      /* #btn_451, */
+      #btn_light_blue,
+      #btn_light_green {
+         z-index: 9;
+         display: none;
+      }
+      #btnDDstandard_top_embroideries, #btnDDprogram_top_embroideries, #btnDDtop_embroidery_vis, #btnDDcustom_top_embroideries {
+         display: none;
+      }
+
+      fieldset {
+         color: white;
+      }
+
+
+      @font-face {
+         font-family: 'ArialRound';
+         src: url('./font/arial.ttf') format('truetype');
+      }
+      @font-face {
+         font-family: 'TimesNewRoman';
+         src: url('Times_New_Roman.otf') format('opentype');
+      }
+      @font-face {
+         font-family: 'snellk';
+         src: url('./font/Snellk.otf') format('opentype');
+      }
+      @font-face {
+         font-family: 'scriptFont';
+         src: url('./font/ABC-Script.ttf') format('truetype');
+      }
+      @font-face {
+         font-family: 'classicFont';
+         src: url('./font/ABC-Classic.ttf') format('truetype');
+      }
+      @font-face {
+         font-family: 'serifFont';
+         src: url('./font/ABC-Serif.ttf') format('truetype');
+      }
+      @font-face {
+         font-family: 'leagueGothicFont';
+         src: url('./font/League-Gothic.otf') format('opentype');
+      }
+    .btnFont, .btnTopEmbroideries, .btnProTopEmbroideries, .btnTop_Emblem, .ChooseImg1, .ChooseImg2, .ChooseImg3, .ChooseImg4{
+         /* display: none !important; */
+      }
+     #inputtext_2{
+         /* display: none !important; */
+      }
+      @media only screen and (max-width:768px){
+         .custom-text-div, .btnFont, .btnFont3, .btnFont4, .btnFont5, .CustomeLogoBtn, .btnContainer, .btnLiningImage, .btnLiningImg, .btnTopEmbroideries, .btnProTopEmbroideries, .btnTop_Emblem, .ChooseImg1, .ChooseImg2, .ChooseImg3, .ChooseImg4, .btnClassButton, .btnClassExtra{
+         display: none !important;
+      }
+      #classBtn, #iconsBtn{
+         display: none;
+      }
+      }
+      /* #fontCal3, #fontTNR3, #fontCal5, #fontTNR5{
+         display: none !important;
+      } */
+      .btnFont, .btnFont3, .btnFont2, .btnFont4, .btnFont5, .btnFont6, .btnFont7, .btnFont8, .btnFont9, .btnFont10, .btnFont11{
+         width: 4%;
+      }
+      .btnFont img, .btnFont2 img, .btnFont3 img, .btnFont4 img, .btnFont5 img, .btnFont6 img, .btnFont7 img, .btnFont8 img, .btnFont9 img, .btnFont10 img, .btnFont11 img{
+         width: 100%;
+      }
+   </style>
+
+</head>
+
+<body>
+
+   <div id="superblaze" style="z-index:2;position:absolute">
+
+      <div id="loader" style="display: none;">
+         <div class="progressBarContainer" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;background:transparent;z-index: 999;display: none;">
+            <div class="ms-Spinner root-555">
+               <div class="ms-Spinner-circle ms-Spinner--large circle-192"></div>
+            </div>
+         </div>
+         <img src="../images_gl/loaderblock.png" />
+         <div id="loaderImg" style="position:absolute;left: 0px; top:0px;z-index: -1;"><img id="changeLoadImage" src="../images_gl/loaderImg.jpg" /></div>
+      </div>
+
+
+      <div id="scenediv">
+        
+       
+         <div id="fullScreen" onclick="launchFullscreen(window.parent.document.documentElement);" class="fullScreenBox" style="display:none"><img src="" width="32px" /> </div>
+         <div id="fullScreenOff" class="fullScreenBox" style="display:none">
+            <p style="font-family:Audty1;color: white; font-size: 13px;   position: absolute;left: -36px;top: -5px;">Close</p><img src="" width="32px" />
+         </div>
+
+         <div id='backgroud_strip'></div>
+         <div id="mainText" style="left: 745px;">
+            <div id="colorText" style="display: block;" class=""></div>
+
+         </div>
+         
+
+         <div id="reset" class="btn2">
+            <div id="resetBtn" class="btn2"><img src="" width="35px" /></div>
+         </div>
+
+         <div id="maincanvasContainer">
+            <canvas style="margin-top: 0px; font-family:Snellk;" id="dummy-canvas" style="" width="1280" height="720" />
+         </div>
+        
+
+          <!-- FRONT LEFT RIGHT TEXT START -->
+         <div class="custom-text-div" id="Bottom-text-left" style="position: absolute;top:3%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_left" class="inputCustomText"  maxlength="14" placeholder="Left" type="text" />
+            </div>
+         </div>
+         <div id="fontCal3" class="btnFont3 activefontbtn" style="position: absolute;top:7%; display: inline-block;left: 0px;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR3" class="btnFont3" style="position: absolute;top:7%; display: inline-block;left: 70.5px;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS3" class="btnFont3" style="position: absolute;top:7%; display: inline-block;left: 140.5px;"><img src='../images_gl/EMB.jpg'></div> 
+         <!-- <div id="fontLeague3" class="btnFont3" style="position: absolute;top:6%; display: inline-block;left: 210.5px;"><img src='../images_gl/gothic.jpg'></div>  -->
+        
+         <div class="custom-text-div" id="Bottom-text-right" style="position: absolute;top:14%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_right" class="inputCustomText" maxlength="14" placeholder="Right" type="text" />
+            </div>
+         </div>
+         <div id="fontCal4" class="btnFont4 activefontbtn" style="position: absolute;top:18%; display: inline-block;left: 0px;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR4" class="btnFont4" style="position: absolute;top:18%; display: inline-block;left: 70.5px;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS4" class="btnFont4" style="position: absolute;top:18%; display: inline-block;left: 140.5px;"><img src='../images_gl/EMB.jpg'></div> 
+         <!-- <div id="fontLeague4" class="btnFont4" style="position: absolute;top:18%; display: inline-block;left: 210.5px;"><img src='../images_gl/gothic.jpg'></div>  -->
+        
+        
+         
+         <!-- FRONT LEFT RIGHT TEXT END -->
+          <!-- Back Top TEXT START -->
+          <div class="custom-text-div" id="Top-text" style="position: absolute;top:25%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_backtop" class="inputCustomText" maxlength="30" placeholder="Back Top" type="text" />
+            </div>
+         </div>
+         <div id="fontCal" class="btnFont activefontbtn" style="position: absolute;top:29%; display: inline-block;left: 0px;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR" class="btnFont" style="position: absolute;top:29%; display: inline-block;left: 70.5px;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS" class="btnFont" style="position: absolute;top:29%; display: inline-block;left: 140.5px;"><img src='../images_gl/EMB.jpg'></div> 
+         <!-- <div id="fontLeague" class="btnFont" style="position: absolute;top:30%; display: inline-block;left: 210.5px;"><img src='../images_gl/gothic.jpg'></div>  -->
+
+         <div class="custom-text-div" id="Bottom-text-back" style="position: absolute;top:36%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_BackBottom" class="inputCustomText" maxlength="24" placeholder="Back Bottom" type="text" />
+            </div>
+         </div>
+         <div id="fontCal5" class="btnFont5 activefontbtn" style="position: absolute;top:40%; display: inline-block;left: 0px;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR5" class="btnFont5" style="position: absolute;top:40%; display: inline-block;left: 70.5px;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS5" class="btnFont5" style="position: absolute;top:40%; display: inline-block;left: 140.5px;"><img src='../images_gl/EMB.jpg'></div> 
+         <!-- <div id="fontLeague5" class="btnFont5" style="position: absolute;top:42%; display: inline-block;left: 210.5px;"><img src='../images_gl/gothic.jpg'></div>  -->
+        
+         <!-- Back Top TEXT END -->
+
+           <!-- LINING TEXT START -->
+           <div class="custom-text-div" id="text-lining-front-top" style="position: absolute;top:47%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="Embhat_top" class="inputCustomText"  maxlength="15" placeholder="Emb hat top" type="text" />
+            </div>
+         </div>
+         <div id="fontCal6" class="btnFont6 activefontbtn" style="position: absolute;top:51%; display: inline-block;left: 0px;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR6" class="btnFont6" style="position: absolute;top:51%; display: inline-block;left: 70.5px;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS6" class="btnFont6" style="position: absolute;top:51%; display: inline-block;left: 140.5px;"><img src='../images_gl/EMB.jpg'></div> 
+         <div class="custom-text-div" id="text-lining-front-middle" style="position: absolute;top:58%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="Embhat_middle" class="inputCustomText" maxlength="15" placeholder="Emb hat middle" type="text" />
+            </div>
+         </div>
+         <div id="fontCal7" class="btnFont7 activefontbtn" style="position: absolute;top:62%; display: inline-block;left: 0px;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR7" class="btnFont7" style="position: absolute;top:62%; display: inline-block;left: 70.5px;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS7" class="btnFont7" style="position: absolute;top:62%; display: inline-block;left: 140.5px;"><img src='../images_gl/EMB.jpg'></div> 
+         <div class="custom-text-div" id="text-lining-front-bottom" style="position: absolute;top:69%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="Embhat_bottom" class="inputCustomText" maxlength="15" placeholder="Emb hat bottom" type="text" />
+            </div>
+         </div>
+         <div id="fontCal8" class="btnFont8 activefontbtn" style="position: absolute;top:73%; display: inline-block;left: 0px;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR8" class="btnFont8" style="position: absolute;top:73%; display: inline-block;left: 70.5px;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS8" class="btnFont8" style="position: absolute;top:73%; display: inline-block;left: 140.5px;"><img src='../images_gl/EMB.jpg'></div> 
+         <!-- LINING TEXT END -->
+         
+         <!-- LINING TEXT START -->
+         <div class="custom-text-div" id="text-lining-top" style="position: absolute;top:80%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_lining_top" class="inputCustomText" maxlength="15" placeholder="Lining text top" type="text" />
+            </div>
+         </div>
+         <div id="fontCal9" class="btnFont9 activefontbtn" style="position: absolute;top:84%; display: inline-block;left: 0px;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR9" class="btnFont9" style="position: absolute;top:84%; display: inline-block;left: 70.5px;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS9" class="btnFont9" style="position: absolute;top:84%; display: inline-block;left: 140.5px;"><img src='../images_gl/EMB.jpg'></div> 
+         <div class="custom-text-div" id="text-lining-middle" style="position: absolute;top:91%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_lining_middle" class="inputCustomText" maxlength="15" placeholder="Lining text middle" type="text" />
+            </div>
+         </div>
+         <div id="fontCal10" class="btnFont10 activefontbtn" style="position: absolute;top:95%; display: inline-block;left: 0px;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR10" class="btnFont10" style="position: absolute;top:95%; display: inline-block;left: 70.5px;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS10" class="btnFont10" style="position: absolute;top:95%; display: inline-block;left: 140.5px;"><img src='../images_gl/EMB.jpg'></div> 
+         <div class="custom-text-div" id="text-lining-bottom" style="position: absolute;top: 91%; left: 19%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_lining_bottom" class="inputCustomText" maxlength="15" placeholder="Lining text bottom" type="text" />
+            </div>
+         </div>
+         <div id="fontCal11" class="btnFont11 activefontbtn" style="position: absolute;top:95%; display: inline-block; left: 19%;"><img src='../images_gl/font_script.jpg'></div>
+         <div id="fontTNR11" class="btnFont11" style="position: absolute;top:95%; display: inline-block;left: 25%;"><img src='../images_gl/serif.jpg'></div>
+         <div id="fontCLS11" class="btnFont11" style="position: absolute;top:95%; display: inline-block;left: 31%;"><img src='../images_gl/EMB.jpg'></div> 
+         <!-- LINING TEXT END -->
+
+         <!-- ENGRPEAK TEXT START -->
+         <div class="custom-text-div" id="Bottom-text-top" style="position: absolute; top: 15%; right: 1%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_Peak_Eng_Top" class="inputCustomText" maxlength="30" placeholder="Peak Engraving Top" style="" type="text" />
+            </div>
+         </div>
+         <div class="custom-text-div" id="Inside-text-middel" style="position: absolute; top: 20%; right: 1%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_Peak_Eng_Mid" class="inputCustomText" maxlength="30" placeholder="Peak Engraving Mid" style="" type="text" />
+            </div>
+         </div>
+         <div class="custom-text-div" id="Bottom-text-bottom" style="position: absolute; top: 25%; right: 1%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext__Peak_Eng_Bottom" class="inputCustomText" maxlength="30" placeholder="Peak Engraving Bottom" style="" type="text" />
+            </div>
+         </div>
+         <!-- ENGRPEAK TEXT END -->
+
+          <!--Sweatband text Start -->
+          <div class="sweatband" id="Sweatband-top" style="position: absolute; top: 30%; right: 1%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_Sweatband_Top" class="inputCustomText" maxlength="30" placeholder="Sweatband Top" style="" type="text" />
+            </div>
+         </div>
+         <div class="sweatband" id="Sweatband-bottom" style="position: absolute; top: 35%; right: 1%;">
+            <div class="textByUserInput_Content_div_2">
+               <input id="inputtext_Sweatband_Bottom" class="inputCustomText" maxlength="30" placeholder="Sweatband Bottom" style="" type="text" />
+            </div>
+         </div>
+           <!--Sweatband text END -->
+      </div>
+   </div>
+   <div id="canvasContainer" style="position:absolute;z-index:1;visibility:hidden;font-family:Snellk;">
+      <canvas style="margin:0px " id="superblaze-canvas" width="1920" height="1080"></canvas>
+   </div>
+
+   <div class="btnContainer">
+      <button id="embroideries" style="display: none;">EMBTOP</button>
+   </div>
+
+   <div id="embroideriesBtn" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 6%;left: 5px;">
+      <!-- <button id="emblem_1" class="emblem_btn" onclick="scene.setTopEmblemImage('../images_gl/emblems/Emblem_Bohuslan_alpha.jpg', '../images_gl/emblems/Emblem_Bohuslan_normal.jpg', '../images_gl/emblems/Emblem_Bohuslan_diffuse.jpg', '../images_gl/emblems/Emblem_Bohuslan_diffuse_Crystal.jpg');"> EMBTOP 1</button> -->
+      <!-- <button id="emblem_1" class="emblem_btn" onclick="scene.setTopEmblemImage('../images_gl/emblems/Emblem_Bohuslan_normal.png');"> EMBTOP 1</button> -->
+      <button id="emblem_2" class="emblem_btn" onclick="scene.setTopEmblemImage('../images_gl/emblems/Emblem_2.png');"> EMBTOP 1</button>
+      <!-- <button id="emblem_3" class="emblem_btn" onclick="scene.setTopEmblemImage('../images_gl/emblems/Emblem_3.png');"> EMBTOP 3</button> -->
+   </div>
+   <div class="btnemblemColors">
+      <button id="emblemColors" style="display: none;">EMBTOP Col</button>
+   </div>
+  <div id="emblemColorBtn" style="position: absolute;width: 100vw;z-index: 99;display: none;bottom: 6%;left: 5px;">
+
+      <button id="emblemColor_1" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_CHAMP');"> DU_CHAMP</button>
+      <button id="emblemColor_2" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_GOLD');"> DU_GOLD</button>
+      <button id="emblemColor_3" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_GREEN');"> DU_GREEN</button>
+      <button id="emblemColor_4" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_ONYX');"> DU_ONYX</button>
+      <button id="emblemColor_5" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_PINK');"> DU_PINK</button>
+      <button id="emblemColor_6" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_RED');"> DU_RED</button>
+      <button id="emblemColor_7" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_ROSE');"> DU_ROSE</button>
+      <button id="emblemColor_8" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_ROYAL');"> DU_ROYAL</button>
+      <button id="emblemColor_9" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_SILVER');"> DU_SILVER</button>
+      <button id="emblemColor_10" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_WHITE');"> DU_WHITE</button>
+      <button id="emblemColor_11" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:DU_YELLOW');"> DU_YELLOW</button>
+      <button id="emblemColor_12" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:GLOW');"> GLOW</button>
+      <button id="emblemColor_13" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_CHAMP');"> SH_CHAMP</button>
+      <button id="emblemColor_14" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_GOLD');"> SH_GOLD</button>
+      <button id="emblemColor_15" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_GREEN');"> SH_GREEN</button>
+      <button id="emblemColor_16" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_ONYX');"> SH_ONYX</button>
+      <button id="emblemColor_17" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_RED');"> SH_RED</button>
+      <button id="emblemColor_18" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_ROSE');"> SH_ROSE</button>
+      <button id="emblemColor_19" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_ROYAL');"> SH_ROYAL</button>
+      <button id="emblemColor_20" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_SILVER');"> SH_SILVER</button>
+      <button id="emblemColor_21" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_WHITE');"> SH_WHITE</button>
+      <button id="emblemColor_22" class="emblemColor_btn" onclick="scene.groupApplyStateTopEmblemColor('EMBTOPCOLOR:SH_YELLOW');"> SH_YELLOW</button>
+   </div> 
+
+     <!-- Flag Pin START -->
+     <div class="flagContainer">      
+      <button id="flagpin" style="display: none;">Flagpin</button>
+   </div>
+   <div id="flagPinBtn" style="position: absolute;width: 100vw;z-index: 99;display: none;bottom: 7%;left: 987px;">
+      <button id="flagPin_1" class="flagpin_btn" onclick="scene.setFlagPinImage('../images_gl/flags/Flag_Sweden.jpg');"> flagpin_1</button>
+      <button id="flagPin_2" class="flagpin_btn" onclick="scene.setFlagPinImage('../images_gl/flags/Flag_Afghanistan.jpg');"> flagpin_2</button>
+      <button id="flagPin_3" class="flagpin_btn" onclick="scene.setFlagPinImage('../images_gl/flags/Flag_Albania.jpg');"> flagpin_3</button>
+      <button id="flagPin_4" class="flagpin_btn" onclick="scene.setFlagPinImage('../images_gl/flags/ALGERIA.png');"> flagpin_4</button>
+      <button id="flagPin_5" class="flagpin_btn" onclick="scene.setFlagPinImage('../images_gl/flags/AUSTRALIA.png');"> flagpin_5</button>
+   </div>
+       <!-- Flag Pin END -->
+
+      <!-- Lining Image START -->
+       <div class="btnLiningImage">
+         <button id="liningImage" style="display: none;">Custom Lining Image</button>
+      </div>   
+      <div class="btnLiningImg" id="btnLiningImg" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 7%;left: 830px;">
+         <button id="withLiningImg" class="withLiningImg">Lining Image</button>
+         <button id="noLiningImg" class="withLiningImg">No Image</button>
+      </div>
+      <!-- Lining Image END -->
+
+      <!-- Top Lining Image START -->
+      <div class="btnLiningImageTop">
+         <button id="liningImageTop" style="display: none;">Custom Top Image</button>
+      </div>   
+      <div class="btnLiningImgTop" id="btnLiningImgTop" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 7%;left: 410px;">
+         <button id="withLiningImgTop" class="withLiningImgTop">Lining Image</button>
+         <button id="noLiningImgTop" class="withLiningImgTop">No Image</button>
+      </div>
+      <!--Top Lining Image END -->
+
+      <!-- Custom Flag START -->
+      <div class="btnFlagLining">
+         <button id="flagImageLining" style="display: none;">Custom Lining Flag</button>
+      </div>   
+      <div class="btnFlagImgLining" id="btnFlagImgLining" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 7%;left: 684px;">
+         <button id="withFlagImgLining" class="withFlagImgLining">Flag Image</button>
+         <button id="noFlagImgLining" class="withFlagImgLining">No Image</button>
+      </div>
+      <!--Custom Flag END -->
+
+      <!-- Custom Top Flag START -->
+      <div class="btnFlagTop">
+         <button id="flagImageTop" style="display: none;">Custom Top Flag</button>
+      </div>   
+      <div class="btnFlagImgTop" id="btnFlagImgTop" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 7%;left: 553px;">
+         <button id="withFlagImgTop" class="withFlagImgTop">Flag Image</button>
+         <button id="noFlagImgTop" class="withFlagImgTop">No Image</button>
+      </div>
+      <!--Custom Top Flag END -->
+
+      <!-- Custom EMB Lining START -->
+      <div class="btnembLinging">
+         <button id="embroideriesLining" style="display: none;">EMB Lining</button>
+      </div>   
+      <div id="embLiningBtn" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 6%;left: 194px;">
+         <button id="emblem_2" class="emblem_btn" onclick="scene.setLiningEmblemImage('../images_gl/emblems/Emblem_2.png');"> EMB Lining 1</button>
+         <button id="emblem_3" class="emblem_btn" onclick="scene.setLiningEmblemImage('../images_gl/emblems/Emblem_3.png');"> EMB Lining 2</button>
+         <button id="embLiningOff" onclick="embLiningOff()" class="emblem_btn"> Logo Off</button>
+      </div>
+
+      <div class="btnLiningemblemColors">
+         <button id="liningemblemColors" style="display: none;">EMB Lining Col</button>
+      </div>
+     <div id="liningemblemColorBtn" style="position: absolute;width: 100vw;z-index: 99;display: none;bottom: 6%;left: 5px;">
+      
+   
+         <button id="emblemColor_1" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:BLANK');"> BLANK</button>
+         <button id="emblemColor_2" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_CHAMP');"> DU_CHAMP</button>
+         <button id="emblemColor_3" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_GOLD');"> DU_GOLD</button>
+         <button id="emblemColor_4" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_GREEN');"> DU_GREEN</button>
+         <button id="emblemColor_5" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_ONYX');"> DU_ONYX</button>
+         <button id="emblemColor_6" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_PINK');"> DU_PINK</button>
+         <button id="emblemColor_7" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_RED');"> DU_RED</button>
+         <button id="emblemColor_8" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_ROSE');"> DU_ROSE</button>
+         <button id="emblemColor_9" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_ROYAL');"> DU_ROYAL</button>
+         <button id="emblemColor_10" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_SILVER');"> DU_SILVER</button>
+         <button id="emblemColor_11" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_WHITE');"> DU_WHITE</button>
+         <button id="emblemColor_12" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:DU_YELLOW');"> DU_YELLOW</button>
+         <button id="emblemColor_13" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:GLOW');"> GLOW</button>
+         <button id="emblemColor_14" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_CHAMP');"> SH_CHAMP</button>
+         <button id="emblemColor_15" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_GOLD');"> SH_GOLD</button>
+         <button id="emblemColor_16" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_GREEN');"> SH_GREEN</button>
+         <button id="emblemColor_17" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_ONYX');"> SH_ONYX</button>
+         <button id="emblemColor_18" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_RED');"> SH_RED</button>
+         <button id="emblemColor_19" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_ROSE');"> SH_ROSE</button>
+         <button id="emblemColor_20" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_ROYAL');"> SH_ROYAL</button>
+         <button id="emblemColor_21" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_SILVER');"> SH_SILVER</button>
+         <button id="emblemColor_22" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_WHITE');"> SH_WHITE</button>
+         <button id="emblemColor_22" class="emblemColor_btn" onclick="scene.groupApplyStateLiningEmblemColor('LINLOGOCOLOR:SH_YELLOW');"> SH_YELLOW</button>
+      </div> 
+         <!-- Custom EMB Lining END -->
+         
+   <script src="js/skin.js" type="text/javascript"></script>
+</body>
+
+</html>

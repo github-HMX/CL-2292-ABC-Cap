@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+   <head>
+      <title>CL Seifert Graduation Cap</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable = no">
+      <script type="text/javascript" src="../js/browserDetect.js" ></script>
+
+       <script type="text/javascript" src="../RT_Analytics.js"></script>
+      <script type="text/javascript" src="../js/ui.js"></script>
+      <script type="text/javascript" src="../model_gl/SSE.js"></script>
+      <script type="text/javascript" src="../model_gl/ctm.js"></script>
+      <script type="text/javascript" src="../model_gl/lzma.js"></script>
+      <script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+      <script type="text/javascript" src="../js/jquery-ui-1.8.24.custom.min.js"></script>
+      <script type="text/javascript" src="../js/gl_script.js"></script>
+      <script type="text/javascript" src="../js/sb.js"></script>
+      <link type="text/css" href="../css/jquery-ui-1.8.24.custom.css" rel="stylesheet" />
+      <link href="../css/sb.css" rel="stylesheet" type="text/css">
+      <script type="text/javascript" src="../InfinityRT_Navigation.js"></script>
+
+       <link rel="stylesheet" href="../model_gl/skin.css" type="text/css">
+       <script type="text/javascript" src="../InfinityRT_Export.js"></script>
+
+    <script>
+        window.baseURL = '../';
+        window.modelBaseURL = '../model_gl/';
+        window.modelBaseURLMob = '../model_gl_mob/';
+    </script>
+
+<style>
+    #btn_hmxBack, #btn_hmxFront, #btn_hmxHero, #btn_hmxLeft, #btn_hmxRight, #btn_hmxTop{display:none;}
+    #divRTSkinMain{z-index:9;}
+    .divRTSkin{z-index:9;display:none;}
+
+    fieldset {color: black;}
+
+@font-face {
+               font-family: 'Snellk';
+               src: url('../Snellk.ttf') format('truetype');
+            }
+
+
+</style>
+
+   </head>
+   <body>
+
+      <div id="superblaze" style="z-index:2;position:absolute">
+<!--
+         <div class="progressBarContainer" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;background: #FFFFFF;z-index: 999;display: none;">
+
+            <div class="ms-Spinner root-555">
+                <div class="ms-Spinner-circle ms-Spinner--large circle-192"></div>
+            </div>
+
+        </div>
+-->
+		   <div id="loader" style="display: none;">
+                       <div class="progressBarContainer" style="position: absolute;left: 0px;top: 0px;width: 100%;height: 100%;background:transparent;z-index: 999;display: none;">
+                            <div class="ms-Spinner root-555">
+                                <div class="ms-Spinner-circle ms-Spinner--large circle-192"></div>
+                            </div>
+                        </div>
+                <img src="../images_gl/loaderblock.png" />
+                <div id="loaderImg" style="position:absolute;left: 0px; top:0px;z-index: -1;"><img src="../images_gl/loaderImg.jpg" /></div>
+                <!--<div id="loaderbar" style="position: absolute;left: 550px;top: 53px;width: 0px;overflow: hidden;"><img src="images_gl/loaderbar.png" /></div>-->
+            </div>
+
+<!--
+          <div id="loader" style="display: none;">
+            <image src="images_gl/loaderblock.png" />
+
+            <div id="loaderbar" style="position:absolute;left: 551px; top:53px; width:1px; overflow:hidden;"><image src="images_gl/loaderbar.png" /></div>
+        </div>
+        <div id="loaderInt" style="display: none;">
+            <image src="" />
+            <div id="loaderbarInt" style="position:absolute; left:500px; top:-50px; width:1px; overflow:hidden;"><image src="" /></div>
+        </div>
+-->
+
+
+
+<!--
+          <div id="transPatch" style="display:none;width:1920px;height:949px;position:absolute;z-index:1010; background-color:#fff;opacity:0.7;"></div>
+       <div id="transPatch2" style="display:none;width:1920px;height:949px;position:absolute;z-index:1010;opacity: 0.7;">
+        </div>
+-->
+
+         <div id="scenediv">
+<!-- External/internal buttons adding style="display: none"  -->
+            <div id="interiorBtn" class="switchView" style="display: none">
+              <span>Interior</span>
+            </div>
+             <div id="extBtn" class="switchViewext" style="display: none">
+              <span>Exterior</span>
+            </div>
+              <!-- <div id="fullScreen" onclick="launchFullscreen(window.parent.document.documentElement);"class="fullScreenBox" style="display:none"><img src="" width="32px" /> </div>
+               <div id="fullScreenOff" class="fullScreenBox" style="display:none"><p style="font-family:Audty1;color: white; font-size: 13px;   position: absolute;left: -36px;top: -5px;">Close</p><img src=""  width="32px"/> </div> -->
+
+
+<!--             <div id="doors">Door Open</div>-->
+<!--          <div id="Logo"><img src="./images_gl/logo.png" width="300px"/></div>  -->
+
+			 <div id='backgroud_strip'></div>
+		 <div id="mainText" style="left: 745px;">
+                 <div id="colorText" style="display: block;" class=""></div>
+
+          </div>
+<!--                         <div class="custom-text-div" id="Bottom-text" style="position: absolute;top:65%;">
+                        <div class="textByUserInput_Content_div_2" >
+                            <button id="takeScreenshot">Take Screenshot</button>
+                      </div>
+                    </div>-->
+<!--		  <div id="colors1" style="display: none;" class="">
+
+			<div id="option1" class="btnC"  >
+
+			<div id="option1Btn" ColorName ="Elite Mira Orange" class="btnC btnC2" style="visibility: visible; background-color: #3e3b3a">
+
+				</div>
+			</div>
+			  <div id="option2" class="btnC">
+
+                <div id="option2Btn" ColorName ="Elite Kyanos Blue" class="btnC btnC2" style="visibility: visible; background-color: #273f3c">
+				  </div>
+            </div>
+             <div id="option3" class="btnC">
+                <div id="option3Btn" ColorName ="Elite Vega Blue" class="btnC btnC2" style="visibility: visible; background-color:  #bcbcbc">
+				 </div>
+            </div>
+
+             <div id="option4" class="btnC">
+                <div id="option4Btn" ColorName ="Elite Pure White" class="btnC btnC2" style="visibility: visible; background-color: #be1c1c">
+				 </div>
+            </div>
+             <div id="option5" class="btnC">
+                <div id="option5Btn" ColorName ="Elite Solis" class="btnC btnC2" style="visibility: visible; background-color: #242424">
+				 </div>
+            </div>
+
+			  <div id="option6" class="btnC">
+                <div id="option6Btn" ColorName ="MSO Defined Laurel Green" class="btnC btnC2" style="visibility: visible; background-color: #f0b530">
+				  </div>
+            </div>
+              <div id="option7" class="btnC">
+                <div id="option7Btn" ColorName ="Special Caliber Black" class="btnC btnC2" style="visibility: visible; background-color: #5d5d5d">
+				  </div>
+            </div>
+
+
+            </div>-->
+
+<!---->
+		<!-- Nammed Band -->
+                <div class="custom-text-div" id="Top-text" style="position: absolute;top:10%;">
+                        <div class="textByUserInput_Content_div_2" >
+                          <input id="inputtext_2" class="inputCustomText" maxlength="14" placeholder="Enter Name" type="text"/>
+                      </div>
+                    </div>
+               <div class="custom-text-div" id="Bottom-text" style="position: absolute;top:15%;">
+                        <div class="textByUserInput_Content_div_2" >
+                          <input id="inputtext_3" class="inputCustomText" maxlength="14" placeholder="Enter Date" type="text"/>
+                      </div>
+                    </div>
+                <div class="custom-text-div" id="Bottom-text" style="position: absolute;top:20%;">
+                        <div class="textByUserInput_Content_div_2" >
+                          <input id="inputtext_4" class="inputCustomText" maxlength="14" placeholder="Enter Date" type="text"/>
+                      </div>
+                    </div>
+               <!-- <div class="custom-text-div" id="Bottom-text" style="position: absolute;top:65%;">
+                        <div class="textByUserInput_Content_div_2" >
+                            <button id="takeScreenshot">Take Screenshot</button>
+                      </div>
+                    </div>-->
+		<!-- Nammed Band End -->
+
+
+          <div id="maincanvasContainer">
+               <canvas style="margin-top: 0px;" id="dummy-canvas" width="600" height="600"/>
+          </div>
+         </div>
+      </div>
+      <div id="canvasContainer" style="position:absolute;z-index:1;visibility:hidden">
+         <canvas style="margin:0px" id="superblaze-canvas" width="1920" height="1080" />
+      </div>
+
+
+      <a href="javascript:void(0)" style="position: absolute;bottom:55px;" id='kokarde_001'>Kokarde 1</a>
+      <a href="javascript:void(0)" style="position: absolute;bottom:40px;" id='kokarde_002'>Kokarde 2</a>
+
+
+       <script src="../js/skin.js" type="text/javascript"></script>
+       <script>
+        window.addEventListener('DOMContentLoaded', function () {
+
+          let configUrl = ((navigator.userAgent.indexOf("iPhone") != -1) || ((navigator.userAgent.indexOf("Android") != -1) || (navigator.userAgent.indexOf("Mobile") != -1)) || (navigator.userAgent.indexOf('iPod') != -1))
+              ? window.baseURL + "model_gl/config.json"
+              : window.baseURL + "model_gl_mob/config.json";
+
+             skin = new infinityrt_skin(configUrl, true, function(e){
+                 console.log( 'READY!' );
+             });
+
+             // Example buttons with Kokarde change and camera an imation
+             document.getElementById('kokarde_001').addEventListener('click', e =>{
+              scene.groupApplyState('cockades:3680');
+              scene.gotoUINamedPosInTime('Brodyr_fram');
+             });
+
+             document.getElementById('kokarde_002').addEventListener('click', e => {
+              scene.groupApplyState('cockades:45110');
+              scene.gotoUINamedPosInTime('Fin');
+             });
+
+         });
+
+
+
+    </script>
+   </body>
+</html>
