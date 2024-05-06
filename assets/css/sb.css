@@ -1382,31 +1382,31 @@ button#btnDDshader_swap\(blue\){
 .flagContainer{
   position: absolute;
     bottom: 25px;
-    left: 987px;
+    left: 1048px;
     z-index: 99;
 }
 .btnLiningImage {    
   position: absolute;
   bottom: 25px;
-  left: 830px;
+  left: 876px;
   z-index: 99;
 }
 .btnLiningImageTop {    
   position: absolute;
   bottom: 25px;
-  left: 410px;
+  left: 418px;
   z-index: 99;
 }
 .btnFlagTop {    
   position: absolute;
   bottom: 25px;
-  left: 553px;
+  left: 570px;
   z-index: 99;
 }
 .btnFlagLining {    
   position: absolute;
   bottom: 25px;
-  left: 684px;
+  left: 715px;
   z-index: 99;
 }
 .btnembLinging{
@@ -1421,3 +1421,4 @@ button#btnDDshader_swap\(blue\){
   left: 291px;
   z-index: 99;
 }
+
