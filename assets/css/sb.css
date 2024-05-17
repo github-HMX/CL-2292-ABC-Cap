@@ -1304,7 +1304,13 @@ button#btnDDshader_swap\(blue\){
 .btnemblemColors {    
   position: absolute;
   bottom: 25px;
-  left: 88px;
+  left: 82px;
+  z-index: 99;
+}
+.btnstarsscrownColors {    
+  position: absolute;
+  bottom: 25px;
+  left: 185px;
   z-index: 99;
 }
 .btnClassButton {    
@@ -1348,7 +1354,7 @@ button#btnDDshader_swap\(blue\){
   z-index: 99;
 }
 
-#emblemColorBtn, #embroideriesBtn, #flagPinBtn{position: absolute;bottom: 0;}
+#emblemColorBtn, #starsscrownColorsBtn, #embroideriesBtn, #flagPinBtn{position: absolute;bottom: 0;}
 
 
 @media only screen and (min-width:768px) and (max-width:1366px){
@@ -1382,43 +1388,43 @@ button#btnDDshader_swap\(blue\){
 .flagContainer{
   position: absolute;
     bottom: 25px;
-    left: 1048px;
+    left: 1172px;
     z-index: 99;
 }
 .btnLiningImage {    
   position: absolute;
   bottom: 25px;
-  left: 876px;
+  left: 1007px;
   z-index: 99;
 }
 .btnLiningImageTop {    
   position: absolute;
   bottom: 25px;
-  left: 418px;
+  left: 567px;
   z-index: 99;
 }
 .btnFlagTop {    
   position: absolute;
   bottom: 25px;
-  left: 570px;
+  left: 713px;
   z-index: 99;
 }
 .btnFlagLining {    
   position: absolute;
   bottom: 25px;
-  left: 715px;
+  left: 851px;
   z-index: 99;
 }
 .btnembLinging{
   position: absolute;
   bottom: 25px;  
-  left: 194px;
+  left: 352px;
   z-index: 99;
 }
 .btnLiningemblemColors{
   position: absolute;
   bottom: 25px;
-  left: 291px;
+  left: 445px;
   z-index: 99;
 }
 

@@ -1,255 +1,448 @@
-var trackExtraStateObj = {};
-var trackExtraStateArr=[];
-
-var trackNormalStateObj = {};
-var trackNormalStateArr=[];
-
-var stateName = [];
-
 var mob = (navigator.userAgent.indexOf("iPhone") != -1) || ((navigator.userAgent.indexOf("Android") != -1) || (navigator.userAgent.indexOf("Mobile") != -1)) || (navigator.userAgent.indexOf('iPod') != -1);
+
+var isipad = (/CriOS/i.test(navigator.userAgent) && /ipad/i.test(navigator.userAgent)) || (navigator.userAgent.indexOf('iPad') != -1) ||
+   (navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
 
 window.initExtra = (function() {
     "use strict";
-
-    window.addEventListener('snapshot:scene:stackUpdated', (e) => {
-        if ( window.location.href.indexOf('snapshot') >= 0 || window.location.href.indexOf('kundvagn') >= 0 || window.location.href.indexOf('orders') >= 0) {
-            scene.groupApplyState('extra_cover_on_off:extra_cover_off');
-            scene.groupApplyState('accessories:hide_box');
-            // scene.groupApplyState('top_on_off:top_on');
-        }
-    })
-
-    infinityrt_scene.prototype.embroideriesStatus = { cur: null, prev: null , imgId : 0};
-    infinityrt_scene.prototype.specialButtonStatus = { cur: null, prev: null , imgId : 0};
+    infinityrt_scene.prototype.emblemStatus = { cur: null, prev: null , imgId : 0};
+    infinityrt_scene.prototype.emblemLiningStatus = { cur: null, prev: null , imgId : 0};
     infinityrt_scene.prototype.flagpinStatus = { cur: null, prev: null , imgId : 0};
+    infinityrt_scene.prototype.flagpatchStatus = { cur: null, prev: null , imgId : 0};
     infinityrt_scene.prototype.textureDiamond = false;
     infinityrt_scene.prototype.textureDiamondAlpha = '';
-    infinityrt_scene.prototype.selectedTopEmbroideries = null;
-    infinityrt_scene.prototype.regualrEmbroideriesColor = 'top_embroideries_col:drink_white';
+    infinityrt_scene.prototype.regualrEmblemColor = 'EMBTOPCOLOR:DU_CHAMP';
+    infinityrt_scene.prototype.regualrLiningEmblemColor = 'LINLOGOCOLOR:DU_CHAMP';
     infinityrt_scene.prototype.isCrystal = true; // This flag is depend on color. If color is Crystal then we need to set it 'true'.
 
-    infinityrt_scene.prototype.setTopEmbroideriesImage = infinityrt_scene.prototype.setTopEmblemImage = function (a) {
+    infinityrt_scene.prototype.setTopEmblemImage = function (a, b, c, d) {
 
-        this.embroideriesStatus.prev = this.embroideriesStatus.cur;
-        this.embroideriesStatus.cur = null;
-        this.embroideriesStatus.imgId = this.embroideriesStatus.imgId + 1;
-        this.embroideriesStatus.cur = {
-            alpha: scene.createImage(this.embroideriesStatus.imgId+"_alpha", a)
-            // bump: scene.createImage(this.embroideriesStatus.imgId+"_bump", b),
-            // diffuse: scene.createImage(this.embroideriesStatus.imgId+"_diffuse", c),
-            // crystal : scene.createImage(this.embroideriesStatus.imgId+"_diffuse_crystal", d)
+        this.emblemStatus.prev = this.emblemStatus.cur;
+        this.emblemStatus.cur = null;
+        this.emblemStatus.imgId = this.emblemStatus.imgId + 1;
+        this.emblemStatus.cur = {
+            bump_alpha_diffuse: scene.createImage(this.emblemStatus.imgId+"_bump_alpha_diffuse", a),
+            //crystal : scene.createImage(this.emblemStatus.imgId+"_diffuse_crystal", d)
+            // WE ASSUME WE DO NOT HAVE CRYSTAL ON ABC CAP project
         };
         // if(this.isCrystal)
-        // scene.groupApplyState('standard_top_embroideries:171');
-        scene.groupApplyState('custom_top_embroideries:on');
-        scene.selectedTopEmbroideries = 'custom_top_embroideries:on';
+        this.emblemStatus.cur.bump_alpha_diffuse.isNormalMap = true;
 
-        // scene.updateTopEmbroideriesImage();
+        // scene.updateTopEmblemImage();
         scene.textureDiamond = false;
-        scene.groupApplyStateTopEmbroideriesColor(scene.regualrEmbroideriesColor);
-    }
+        scene.groupApplyStateTopEmblemColor(scene.regualrEmblemColor);
 
-    infinityrt_scene.prototype.updateTopEmbroideriesImage = function (){
-        if(scene.embroideriesStatus.cur === null)
+
+    }
+    infinityrt_scene.prototype.updateTopEmblemImage = function (){
+        if(scene.emblemStatus.cur === null)
             return;
 
-        var inst = scene.getInstanceByNameIncEnv('Acustom_uppsala_embroideries_geo-0', this);
-        var inst2 = scene.getInstanceByNameIncEnv('Acustom_lunda_embroideries_geo-0', this);
+        var inst = scene.getInstanceByNameIncEnv('top_emblem_lunda-0', this);
         var currentMaterial = scene._Materials[inst.mesh.currentMaterial].name;
-        var currentMaterial2 = scene._Materials[inst2.mesh.currentMaterial].name;
-        // scene.regualrEmbroideriesColor = currentMaterial;
-        // console.log('currentMaterial', currentMaterial)
+        // scene.regualrEmblemColor = currentMaterial;
+       // console.log('currentMaterial', currentMaterial)
         var timerLoad = setInterval(function() {
             if (scene._outstandingjobs == 0) {
                 clearInterval(timerLoad);
-                var mat2 = scene._Material_ref[currentMaterial]; // This name 'HH_White_Drink_Matt_Top_embroideriess_Env' we need to read From Scene Object
-                var mat3 = scene._Material_ref[currentMaterial2];
+                var mat2 = scene._Material_ref[currentMaterial]; // This name 'HH_White_Drink_Matt_Top_Emblems_Env' we need to read From Scene Object
+             //   console.log('mat2', scene._Materials[inst.mesh.currentMaterial].textures)
                 if(scene.isCrystal){
-                    mat2.setTexture(scene.embroideriesStatus.cur.alpha, TEXTURE_MAP_ALPHATEX);
-                    // mat2.setTexture(scene.embroideriesStatus.cur.crystal, TEXTURE_MAP_DIFFUSETEX);
-                    // mat3.setTexture(scene.embroideriesStatus.cur.alpha, TEXTURE_MAP_ALPHATEX);
-                    // mat3.setTexture(scene.embroideriesStatus.cur.crystal, TEXTURE_MAP_DIFFUSETEX);
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_ALPHATEX);
+                    //mat2.setTexture(scene.emblemStatus.cur.crystal, TEXTURE_MAP_DIFFUSETEX); // NO CRYSTAL ON ABC CAP
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX); // NO CRYSTAL ON ABC CAP
                 }else{
-                    mat2.setTexture(scene.embroideriesStatus.cur.alpha, TEXTURE_MAP_ALPHATEX);
-                    // mat2.setTexture(scene.embroideriesStatus.cur.bump, TEXTURE_MAP_BUMPTEX);
-                    // mat2.setTexture(scene.embroideriesStatus.cur.diffuse, TEXTURE_MAP_DIFFUSETEX);
-                    // mat2.setTexture(scene.embroideriesStatus.cur.diffuse, TEXTURE_MAP_GLOSSYTEX);
-                    // mat2.setTexture(scene.embroideriesStatus.cur.diffuse, TEXTURE_MAP_ADDITIONALTEX);
-
-                    mat3.setTexture(scene.embroideriesStatus.cur.alpha, TEXTURE_MAP_ALPHATEX);
-                    // mat3.setTexture(scene.embroideriesStatus.cur.bump, TEXTURE_MAP_BUMPTEX);
-                    // mat3.setTexture(scene.embroideriesStatus.cur.diffuse, TEXTURE_MAP_DIFFUSETEX);
-                    // mat3.setTexture(scene.embroideriesStatus.cur.diffuse, TEXTURE_MAP_GLOSSYTEX);
-                    // mat3.setTexture(scene.embroideriesStatus.cur.diffuse, TEXTURE_MAP_ADDITIONALTEX);
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_ALPHATEX);
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_BUMPTEX);
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX);
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_GLOSSYTEX);
                 }
+                var mat = scene._Material_ref["HH_White_Drink_Matt_Top_Emblems_Env"];
+                mat.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_ALPHATEX);
+                mat.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_BUMPTEX);
+                mat.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_GLOSSYTEX);
+                mat.setTexture((this.isCrystal) ? scene.emblemStatus.cur.crystal : scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX);
 
-                if (scene.embroideriesStatus.prev) {
-                    scene.embroideriesStatus.prev.alpha.destroy();
-                    // scene.embroideriesStatus.prev.bump.destroy();
-                    // scene.embroideriesStatus.prev.diffuse.destroy();
-                    // if (scene.embroideriesStatus.prev.crystal)
-                    //     scene.embroideriesStatus.prev.crystal.destroy();
+
+
+                if (scene.emblemStatus.prev) {
+                    scene.emblemStatus.prev.bump_alpha_diffuse.destroy();
+                    //scene.emblemStatus.prev.bump.destroy();
+                    //scene.emblemStatus.prev.diffuse.destroy();
+                    if (scene.emblemStatus.prev.crystal)
+                        scene.emblemStatus.prev.crystal.destroy();
                 }
             }
+            // console.log('scene.textureDiamond', scene.textureDiamond)
+            if(scene.textureDiamond)scene.materialReplace("HH_Diamond_Top_amblem_env", currentMaterial);// This name 'HH_White_Drink_Matt_Top_Emblems_Env' we need to read From Scene Object
+            scene.textureDiamond = false;
         }, 1);
         setTimeout(function(){
             scene.clearRefine();
         },10)
+        
+    }
+    infinityrt_scene.prototype.updateTopEmblemImageNew = function (statename){
+        if(scene.emblemStatus.cur === null)
+            return;
+
+            var stateToMaterial = {
+                'du_champ' : 'HH_Champagne_Crystal_Matt_Top_Emblems_Env',
+                'du_gold' : 'HH_Gold_Drink_Matt_Top_Emblems_Env',
+                'du_green' : 'HH_Green_Drink_Matt_Top_Emblems_Env',
+                'du_onyx' : 'HH_Onyx_Black_Matt_Top_Emblems_Env',
+                'du_pink' : 'HH_Dark_Pink_Matt_Top_Emblems_Env',
+                'du_red' : 'HH_Red_Drink_Matt_Top_Emblems_Env',
+                'du_rose' : 'HH_Pink_Crystal_Matt_Top_Emblems_Env',
+                'du_royal' : 'HH_Royal_Blue_Matt_Top_Emblems_Env',
+                'du_silver' : 'HH_Silver_Drink_Matt_Top_Emblems_Env',
+                'du_white' : 'HH_White_Drink_Matt_Top_Emblems_Env',
+                'du_yellow' : 'HH_Yellow_Matt_Top_Emblems_Env',
+                'glow' : 'HH_Champagne_Crystal_Matt_Top_Emblems_EnvGLOW',
+                'sh_champ' : 'HH_Champagne_Crystal_Matt_Top_Emblems_Env_copy',
+                'sh_gold' : 'HH_Gold_Crystal_Drink_Matt_Top_Emblems_Env',
+                'sh_green' : 'HH_Gold_Crystal_Drink_Matt_Top_Emblems_Env_copy',
+                'sh_onyx' : 'HH_Onyx_Black_Matt_Top_Emblems_Env_copy',
+                'sh_red' : 'HH_Red_Drink_Matt_Top_Emblems_Env_copy',
+                'sh_rose' : 'HH_Pink_Crystal_Matt_Top_Emblems_Env_copy',
+                'sh_royal' : 'HH_Royal_Blue_Matt_Top_Emblems_Env_copy',
+                'sh_silver' : 'HH_Silver_Crystal_Drink_Matt_Top_Emblems_Env',
+                'sh_white' : 'HH_White_Crystal_Matt_Top_Emblems_Env',
+                'sh_yellow' : 'HH_Yellow_Matt_Top_Emblems_Env_copy',
+                'none' : 'HH_BLANK_Drink_Matt_Top_Emblems_Env_copy'
+            }
+
+        var inst = scene.getInstanceByNameIncEnv('top_emblem_lunda-0', this);
+        var currentMaterialOLD = scene._Materials[inst.mesh.currentMaterial].name;
+        var currentMaterial = stateToMaterial[statename];
+        // scene.regualrEmblemColor = currentMaterial;
+        // console.log('statename', statename)
+        // console.log('currentMaterial', currentMaterial)
+        // console.log('currentMaterialOLD', currentMaterialOLD)
+        var timerLoad = setInterval(function() {
+            if (scene._outstandingjobs == 0) {
+                clearInterval(timerLoad);
+                var mat2 = scene._Material_ref[currentMaterial]; // This name 'HH_White_Drink_Matt_Top_Emblems_Env' we need to read From Scene Object
+                // console.log(mat2)
+                if(scene.isCrystal){
+                    mat2.setTexture(scene.emblemStatus.cur.updateTopEmblemImageNew, TEXTURE_MAP_ALPHATEX);
+                    //mat2.setTexture(scene.emblemStatus.cur.crystal, TEXTURE_MAP_DIFFUSETEX); // NO CRYSTAL ON ABC CAP
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX); // NO CRYSTAL ON ABC CAP
+                }else{
+
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_ALPHATEX);
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_BUMPTEX);
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX);
+                    mat2.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_GLOSSYTEX);
+                }
+                var mat = scene._Material_ref["HH_White_Drink_Matt_Top_Emblems_Env"];
+                mat.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_ALPHATEX);
+                mat.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_BUMPTEX);
+                mat.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_GLOSSYTEX);
+                //mat.setTexture((this.isCrystal) ? scene.emblemStatus.cur.crystal : scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX);
+                mat.setTexture(scene.emblemStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX);
+
+
+
+                if (scene.emblemStatus.prev) {
+                    scene.emblemStatus.prev.bump_alpha_diffuse.destroy();
+                    //scene.emblemStatus.prev.bump.destroy();
+                    //scene.emblemStatus.prev.diffuse.destroy();
+                    //if (scene.emblemStatus.prev.crystal)
+                    //    scene.emblemStatus.prev.crystal.destroy();
+                }
+            }
+            // console.log('scene.textureDiamond', scene.textureDiamond)
+            if(scene.textureDiamond)scene.materialReplace("HH_Diamond_Top_amblem_env", currentMaterial);// This name 'HH_White_Drink_Matt_Top_Emblems_Env' we need to read From Scene Object
+            scene.textureDiamond = false;
+        }, 1);
+        setTimeout(function(){
+            scene.clearRefine();
+        },100)
+        
+    }
+    infinityrt_scene.prototype.setTopEmblemImageDiamond = function (a) {
+        var inst = scene.getInstanceByNameIncEnv('top_emblem_lunda_strass-0', this);
+        var currentMaterial = scene._Materials[inst.mesh.currentMaterial].name;
+        console.log('currentMaterial', currentMaterial);
+        // scene.regualrEmblemColor = currentMaterial;
+        if(!scene.textureDiamond)scene.materialReplace(currentMaterial, "EMPTOP_STRASS3CROWNS__GOLD"); // This name 'HH_White_Drink_Matt_Top_Emblems_Env' we need to read From Scene Object
+        scene.textureDiamondAlpha = scene.createImage(this.emblemStatus.imgId+"_alpha", a);
+
+        scene.updateTopEmblemImageDiamond();
 
     }
+    infinityrt_scene.prototype.updateTopEmblemImageDiamond = function (a) {
+        var inst = scene.getInstanceByNameIncEnv('top_emblem_lunda_strass-0', this);
+        var currentMaterial = scene._Materials[inst.mesh.currentMaterial].name;
+        // console.log('currentMaterial', currentMaterial)
+        var mat3 = scene._Material_ref[currentMaterial];
+        // console.log('mat3', mat3)
+        // console.log('scene.textureDiamondAlpha', scene.textureDiamondAlpha)
+        mat3.setTexture(scene.textureDiamondAlpha, TEXTURE_MAP_ALPHATEX);
+        scene.clearRefine();
+        scene.textureDiamond = true;
+    }
 
-    infinityrt_scene.prototype.groupApplyStateTopEmbroideriesColor = function (gName,opts){
+    infinityrt_scene.prototype.setFlagPinImage = function (a) {
 
-        console.log(gName);
+        scene.flagpinStatus.prev = scene.flagpinStatus.cur;
+        scene.flagpinStatus.cur = null;
+
+        scene.flagpinStatus.cur = scene.createImage(scene.flagpinStatus.imgId+"_col", a);
+
+        if(scene.flagpinStatus.cur == null)  return;
+
+        var timerLoad = setInterval(function() {
+            if (scene._outstandingjobs == 0) {
+                clearInterval(timerLoad);
+
+                var mat = scene._Material_ref["GG_Flag_Sweden_env"];
+                mat.setTexture(scene.flagpinStatus.cur, TEXTURE_MAP_DIFFUSETEX);
+                mat.setTexture(scene.flagpinStatus.cur, TEXTURE_MAP_GLOSSYTEX);
+                scene.clearRefine();
+
+                if (scene.flagpinStatus.prev)
+                    scene.flagpinStatus.prev.destroy();
+            }
+        }, 100);
+    }
+
+    infinityrt_scene.prototype.groupApplyStateTopEmblemColor = function (gName,opts){
+
+        // console.log(gName)
+                var sarr=gName.split(":");
+                var embname = sarr[1].toLowerCase();
+                scene.isCrystal = (embname.indexOf("crystal") >= 0 || embname.indexOf("clyster") >= 0 || embname.indexOf("cryster") >= 0);
+        
+                if(gName == 'SWAROV_EMBTOP_COL:SWAROV_EMBTOP_CHAMP' || 
+                gName == 'SWAROV_EMBTOP_COL:SWAROV_EMBTOP_GOLD' ||
+                gName == 'SWAROV_EMBTOP_COL:SWAROV_EMBTOP_SILVER')  {
+                    console.log(opts)
+                    if(opts == undefined){
+                        opts = {}
+                    }
+                    opts.postpone=true;
+                    this.groupApplyState(gName,opts);
+                    scene.updateTopEmblemImageDiamond();
+                    // console.log('updateTopEmblemImageDiamond called')
+                }  else{
+                    scene.regualrEmblemColor = gName;
+                    if(opts == undefined){
+                        opts = {}
+                    }
+                    opts.postpone=true;
+                    scene.updateTopEmblemImageNew(embname);
+                    setTimeout(function(){
+                        window.scene.groupApplyState(gName,opts);
+                    },100)
+                    
+                    // scene.updateTopEmblemImage();
+                    // console.log('updateTopEmblemImage called')
+                }
+        
+        
+        
+    }
+
+    infinityrt_scene.prototype.setLiningEmblemImage = function (a, b, c, d) {
+        let imageURL = a.split("?");
+        imageURL = imageURL[0];
+        this.emblemLiningStatus.prev = this.emblemLiningStatus.cur;
+        this.emblemLiningStatus.cur = null;
+        this.emblemLiningStatus.imgId = this.emblemLiningStatus.imgId + 1;
+        this.emblemLiningStatus.cur = {
+            bump_alpha_diffuse: scene.createImage(this.emblemLiningStatus.imgId+"_bump_alpha_diffuse", imageURL),
+            //crystal : scene.createImage(this.emblemLiningStatus.imgId+"_diffuse_crystal", d)
+            // WE ASSUME WE DO NOT HAVE CRYSTAL ON ABC CAP project
+        };
+        // if(this.isCrystal)
+        this.emblemLiningStatus.cur.bump_alpha_diffuse.isNormalMap = true;
+
+        // scene.updateTopEmblemImage();
+        scene.textureDiamond = false;
+        scene.groupApplyStateLiningEmblemColor(scene.regualrLiningEmblemColor);
+
+
+    }
+    infinityrt_scene.prototype.updateLiningEmblemImageNew = function (statename){
+        if(scene.emblemLiningStatus.cur === null)
+            return;
+
+            var stateToMaterial = {
+                'none' : 'HH_BLANK_Drink_Matt_Top_Emblems_Env_copy_copy',
+                'du_champ' : 'HH_Champagne_Crystal_Matt_Top_Emblems_Env_copy_2',
+                'du_gold' : 'HH_Gold_Drink_Matt_Top_Emblems_Env_copy',
+                'du_green' : 'HH_Green_Drink_Matt_Top_Emblems_Env_copy',
+                'du_onyx' : 'HH_Onyx_Black_Matt_Top_Emblems_Env_copy_1',
+                'du_pink' : 'HH_Dark_Pink_Matt_Top_Emblems_Env_copy',
+                'du_red' : 'HH_Red_Drink_Matt_Top_Emblems_Env_copy_1',
+                'du_rose' : 'HH_Pink_Crystal_Matt_Top_Emblems_Env_copy_1',
+                'du_royal' : 'HH_Royal_Blue_Matt_Top_Emblems_Env_copy_1',
+                'du_silver' : 'HH_Silver_Drink_Matt_Top_Emblems_Env_copy',
+                'du_white' : 'HH_White_Drink_Matt_Top_Emblems_Env_copy',
+                'du_yellow' : 'HH_Yellow_Matt_Top_Emblems_Env_copy_1',
+                'glow' : 'HH_Champagne_Crystal_Matt_Top_Emblems_EnvGLOW_copy',
+                'sh_champ' : 'HH_Champagne_Crystal_Matt_Top_Emblems_Env_copy_copy',
+                'sh_gold' : 'HH_Gold_Crystal_Drink_Matt_Top_Emblems_Env_copy_1',
+                'sh_green' : 'HH_Gold_Crystal_Drink_Matt_Top_Emblems_Env_copy_copy',
+                'sh_onyx' : 'HH_Onyx_Black_Matt_Top_Emblems_Env_copy_copy',
+                'sh_red' : 'HH_Red_Drink_Matt_Top_Emblems_Env_copy_copy',
+                'sh_rose' : 'HH_Pink_Crystal_Matt_Top_Emblems_Env_copy_copy',
+                'sh_royal' : 'HH_Royal_Blue_Matt_Top_Emblems_Env_copy_copy',
+                'sh_silver' : 'HH_Silver_Crystal_Drink_Matt_Top_Emblems_Env_copy',
+                'sh_white' : 'HH_White_Crystal_Matt_Top_Emblems_Env_copy',
+                'sh_yellow' : 'HH_Yellow_Matt_Top_Emblems_Env_copy_copy_1',
+            }
+
+        var inst = scene.getInstanceByNameIncEnv('TO.001-0', this);
+        var currentMaterialOLD = scene._Materials[inst.mesh.currentMaterial].name;
+        var currentMaterial = stateToMaterial[statename];
+        // scene.regualrLiningEmblemColor = currentMaterial;
+        // console.log('statename', statename)
+        // console.log('currentMaterial', currentMaterial)
+        // console.log('currentMaterialOLD', currentMaterialOLD)
+        var timerLoad = setInterval(function() {
+            if (scene._outstandingjobs == 0) {
+                clearInterval(timerLoad);
+                var mat2 = scene._Material_ref[currentMaterial]; // This name 'HH_White_Drink_Matt_Top_Emblems_Env' we need to read From Scene Object
+                // console.log(mat2)
+                if(scene.isCrystal){
+                    mat2.setTexture(scene.emblemLiningStatus.cur.updateLiningEmblemImageNew, TEXTURE_MAP_ALPHATEX);
+                    //mat2.setTexture(scene.emblemLiningStatus.cur.crystal, TEXTURE_MAP_DIFFUSETEX); // NO CRYSTAL ON ABC CAP
+                    mat2.setTexture(scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX); // NO CRYSTAL ON ABC CAP
+                }else{
+
+                    mat2.setTexture(scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_ALPHATEX);
+                    mat2.setTexture(scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_BUMPTEX);
+                    mat2.setTexture(scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX);
+                    mat2.setTexture(scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_GLOSSYTEX);
+                }
+                var mat = scene._Material_ref["HH_White_Drink_Matt_Top_Emblems_Env_copy"];
+                mat.setTexture(scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_ALPHATEX);
+                mat.setTexture(scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_BUMPTEX);
+                mat.setTexture(scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_GLOSSYTEX);
+                //mat.setTexture((this.isCrystal) ? scene.emblemLiningStatus.cur.crystal : scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX);
+                mat.setTexture(scene.emblemLiningStatus.cur.bump_alpha_diffuse, TEXTURE_MAP_DIFFUSETEX);
+
+
+
+                if (scene.emblemLiningStatus.prev) {
+                    scene.emblemLiningStatus.prev.bump_alpha_diffuse.destroy();
+                    //scene.emblemLiningStatus.prev.bump.destroy();
+                    //scene.emblemLiningStatus.prev.diffuse.destroy();
+                    //if (scene.emblemLiningStatus.prev.crystal)
+                    //    scene.emblemLiningStatus.prev.crystal.destroy();
+                }
+            }
+            // console.log('scene.textureDiamond', scene.textureDiamond)
+            if(scene.textureDiamond)scene.materialReplace("HH_Diamond_Top_amblem_env", currentMaterial);// This name 'HH_White_Drink_Matt_Top_Emblems_Env' we need to read From Scene Object
+            scene.textureDiamond = false;
+        }, 1);
+        setTimeout(function(){
+            scene.clearRefine();
+        },100)
+        
+    }
+
+    infinityrt_scene.prototype.groupApplyStateLiningEmblemColor = function (gName,opts){
+
+// console.log(gName)
         var sarr=gName.split(":");
         var embname = sarr[1].toLowerCase();
+        // console.log(embname)
+        // console.log(gName)
         scene.isCrystal = (embname.indexOf("crystal") >= 0 || embname.indexOf("clyster") >= 0 || embname.indexOf("cryster") >= 0);
 
-        if(gName == 'top_embroideries_crystal_col:crystal_gold' ||
-        gName == 'top_embroideries_crystal_col:crystal_pink' ||
-        gName == 'top_embroideries_crystal_col:crystal_silver' ||
-        gName == 'top_embroideries_crystal_col:crystal_black' ||
-        gName == 'top_embroideries_crystal_col:crystal_champagne' ||
-        gName == 'top_embroideries_crystal_col:crystal_rose_gold')  {
-            console.log(opts)
+        //IF state is for Emblem Image Diamond then add state name in below if 
+        if(gName == 'SWAROV_EMBTOP_COL:SWAROV_EMBTOP_CHAMP' || 
+        gName == 'SWAROV_EMBTOP_COL:SWAROV_EMBTOP_GOLD' ||
+        gName == 'SWAROV_EMBTOP_COL:SWAROV_EMBTOP_SILVER')  {
+            // console.log(opts)
             if(opts == undefined){
                 opts = {}
             }
             opts.postpone=true;
             this.groupApplyState(gName,opts);
-            scene.updateTopEmbroideriesImageDiamond();
-            // console.log('updateTopEmbroideriesImageDiamond called')
+            scene.updateTopEmblemImageDiamond();
+            // console.log('updateTopEmblemImageDiamond called')
         }  else{
-            scene.regualrEmbroideriesColor = gName;
-            console.log(opts)
+            scene.regualrLiningEmblemColor = gName;
             if(opts == undefined){
                 opts = {}
             }
             opts.postpone=true;
-
-            this.groupApplyState(gName,opts);
-            scene.updateTopEmbroideriesImage();
-            console.log('updateTopEmbroideriesImage called', gName,opts)
+            scene.updateLiningEmblemImageNew(embname);
+            setTimeout(function(){
+                window.scene.groupApplyState(gName,opts);
+            },100)
+            
+            // scene.updateTopEmblemImage();
+            // console.log('updateTopEmblemImage called')
         }
 
 
 
     }
 
-    infinityrt_scene.prototype.groupApplyStateTE = function (a) {
-
-        // console.log('groupApplyStateStandardTopEmbroideries called');
-        var state = a;
-        state = state.split(':');
-        state = state[1];
-
-        if(a=='top_embroidery_vis:off'){
-            scene.groupApplyState('top_embroidery_vis:off');
-            // scene.groupApplyState('custom_top_embroideries:off');
+    infinityrt_scene.prototype.customImageTopAndLining = function(url, location){
+        console.log(url);
+        console.log(location);
+        
+        // var selectMaterial = location.toLowerCase() == "top" ? "AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE_copy" : "AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE";
+        if(location.toLowerCase() == "top") {
+            scene.customImageTopAndLining1 = scene.createImage("customImage", url);
+            var selectMaterial1 ="AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE_copy";
+            if (scene) {
+                var mat1 = scene._Material_ref[selectMaterial1];
+                mat1.setTexture(scene.customImageTopAndLining1,TEXTURE_MAP_ADDITIONALTEX);
+                scene.clearRefine();
+             }
         }
-        if(a=='top_embroidery_vis:on'){
-            console.log('scene.selectedTopEmbroideries', scene.selectedTopEmbroideries);
-            scene.groupApplyState(scene.selectedTopEmbroideries);
+        else if(location.toLowerCase() == "lining") {
+            scene.customImageTopAndLining2 = scene.createImage("customImage", url);
+            var selectMaterial2 ="SS_inner_normal_image_part_env";
+            if (scene) {
+                var mat2 = scene._Material_ref[selectMaterial2];
+                mat2.setTexture(scene.customImageTopAndLining2,TEXTURE_MAP_ADDITIONALTEX);
+                scene.clearRefine();
+             }
         }
-
-        // console.log(state);
-        // if(state != '171' && state != 'ON'){
-        //     scene.selectedTopEmbroideries = a;
-        // }
-        if(a != 'top_embroidery_vis:off' && a != 'top_embroidery_vis:on'){
-            scene.groupApplyState(a);
-            scene.selectedTopEmbroideries = a;
-            // console.log('!ON called', scene.selectedStandardTopEmbroideries);
-        }
-        //else if(state == 'ON' && scene.selectedTopEmbroideries != null){
-        //     // console.log('ON STATE called', scene.selectedStandardTopEmbroideries);
-        //     scene.groupApplyState(scene.selectedTopEmbroideries);
-        // }
-
+        
     }
-
-    infinityrt_scene.prototype.setSpecialButtonImage = function (a) {
-        this.specialButtonStatus.prev = this.specialButtonStatus.cur;
-        this.specialButtonStatus.cur = null;
-        this.specialButtonStatus.imgId = this.specialButtonStatus.imgId + 1;
-        this.specialButtonStatus.cur = {
-            alpha: scene.createImage(this.specialButtonStatus.imgId+"_alpha", a)
-            // bump: scene.createImage(this.specialButtonStatus.imgId+"_bump", b),
-            // diffuse: scene.createImage(this.specialButtonStatus.imgId+"_diffuse", c),
-            // crystal : scene.createImage(this.specialButtonStatus.imgId+"_diffuse_crystal", d)
-        };
-        // if(this.isCrystal)
-        // scene.groupApplyState('standard_top_embroideries:171');
-        scene.groupApplyState('custom_button_logo:custom_button_logo_on');
-        scene.updateClassButtonImage();
-        // scene.textureDiamond = false;
-        //scene.groupApplyStateTopEmbroideriesColor(scene.regualrEmbroideriesColor);
-
-
-    }
-
-    infinityrt_scene.prototype.updateClassButtonImage = function (){
-        if(scene.specialButtonStatus.cur === null)
-            return;
-
-        var inst = scene.getInstanceByNameIncEnv('class_buttongeologo-0', this);
-        // var inst2 = scene.getInstanceByNameIncEnv('Acustom_lunda_embroideries_geo-0', this);
-        var currentMaterial = scene._Materials[inst.mesh.currentMaterial].name;
-       // var currentMaterial2 = scene._Materials[inst2.mesh.currentMaterial].name;
-        // scene.regualrEmbroideriesColor = currentMaterial;
-        // console.log('currentMaterial', currentMaterial)
-        var timerLoad = setInterval(function() {
-            if (scene._outstandingjobs == 0) {
-                clearInterval(timerLoad);
-                var mat2 = scene._Material_ref[currentMaterial]; // This name 'HH_White_Drink_Matt_Top_embroideriess_Env' we need to read From Scene Object
-               // var mat3 = scene._Material_ref[currentMaterial2];
-                if(scene.isCrystal){
-                    mat2.setTexture(scene.specialButtonStatus.cur.alpha, TEXTURE_MAP_ALPHATEX);
-                    // mat2.setTexture(scene.specialButtonStatus.cur.crystal, TEXTURE_MAP_DIFFUSETEX);
-                    // mat3.setTexture(scene.specialButtonStatus.cur.alpha, TEXTURE_MAP_ALPHATEX);
-                    // mat3.setTexture(scene.specialButtonStatus.cur.crystal, TEXTURE_MAP_DIFFUSETEX);
-                }else{
-                    mat2.setTexture(scene.specialButtonStatus.cur.alpha, TEXTURE_MAP_ALPHATEX);
-                    // mat2.setTexture(scene.specialButtonStatus.cur.bump, TEXTURE_MAP_BUMPTEX);
-                    // mat2.setTexture(scene.specialButtonStatus.cur.diffuse, TEXTURE_MAP_DIFFUSETEX);
-                    // mat2.setTexture(scene.specialButtonStatus.cur.diffuse, TEXTURE_MAP_GLOSSYTEX);
-                    // mat2.setTexture(scene.specialButtonStatus.cur.diffuse, TEXTURE_MAP_ADDITIONALTEX);
-
-                    mat3.setTexture(scene.specialButtonStatus.cur.alpha, TEXTURE_MAP_ALPHATEX);
-                    // mat3.setTexture(scene.specialButtonStatus.cur.bump, TEXTURE_MAP_BUMPTEX);
-                    // mat3.setTexture(scene.specialButtonStatus.cur.diffuse, TEXTURE_MAP_DIFFUSETEX);
-                    // mat3.setTexture(scene.specialButtonStatus.cur.diffuse, TEXTURE_MAP_GLOSSYTEX);
-                    // mat3.setTexture(scene.specialButtonStatus.cur.diffuse, TEXTURE_MAP_ADDITIONALTEX);
-                }
-
-                if (scene.specialButtonStatus.prev) {
-                    scene.specialButtonStatus.prev.alpha.destroy();
-                    // scene.specialButtonStatus.prev.bump.destroy();
-                    // scene.specialButtonStatus.prev.diffuse.destroy();
-                    // if (scene.specialButtonStatus.prev.crystal)
-                    //     scene.specialButtonStatus.prev.crystal.destroy();
-                }
-            }
-        }, 1);
-        setTimeout(function(){
-            scene.clearRefine();
-        },10)
-
+    infinityrt_scene.prototype.customFlagTopAndLining = function(url, location){
+        console.log(url);
+        console.log(location);
+        
+        // var selectMaterial = location.toLowerCase() == "top" ? "AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE_copy" : "AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE";
+        if(location.toLowerCase() == "top") {
+            scene.customFlagTopAndLining1 = scene.createImage("customImage", url);
+            var selectMaterial1 ="SS_inner_normal_image_part_env_copy";
+            if (scene) {
+                var mat1 = scene._Material_ref[selectMaterial1];
+                mat1.setTexture(scene.customFlagTopAndLining1,TEXTURE_MAP_ADDITIONALTEX);
+                scene.clearRefine();
+             }
+        }
+        else if(location.toLowerCase() == "lining") {
+            scene.customFlagTopAndLining2 = scene.createImage("customImage", url);
+            var selectMaterial2 ="AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE";
+            if (scene) {
+                var mat2 = scene._Material_ref[selectMaterial2];
+                mat2.setTexture(scene.customFlagTopAndLining2,TEXTURE_MAP_ADDITIONALTEX);
+                scene.clearRefine();
+             }
+        }
+        
     }
 
 
     infinityrt_scene.prototype.gotoUINamedPosInTime = function (a, b, c, d, e) {
-
-        if ( window.location.href.indexOf('snapshot') >= 0 || window.location.href.indexOf('kundvagn') >= 0) {
-            scene.groupApplyState('extra_cover_on_off:extra_cover_off');
-            // scene.groupApplyState('top_on_off:top_on');
-        }
-
         if(mob){
             a = mobile[a]
             scene.setProjectionOffset(0, -110);
         } else if (this.skin && this.skin.ui){
-            a = desktop[a]
+            a = desktop[a]  
         }
         this.skin && this.skin.ui && (a,
             b || (b = a.time),
@@ -260,71 +453,9 @@ window.initExtra = (function() {
             a.doffocusdist && (this._fDoFFocusPos = a.doffocusdist),
             this.gotoPosInTime(a.pos[0], a.pos[1], a.pos[2], a.pos[3], a.pos[4], b, c, d, e))
     }
+
 });
 
-var extraOn = false;
-function getStateLog(){
-
- if(extraOn){
-       scene.groupApplyState("extra_cover_on_off:extra_cover_off")
-        extraOn = false;
-    }
-    else{
-        scene.groupApplyState("extra_cover_on_off:extra_cover_on")
-        extraOn = true;
-    }
-
-
-    for(let i=0;i<scene.stateLog.length;i++){
-        stateName.push(scene.stateLog[i].name);
-    }
-    scene.stateLog = [];
-
-    trackExtraStateArr = stateName.filter((val)=>
-        val.split(":")[0] == "extra_cover_col" ||
-        val.split(":")[0] == "extra_cover_on_off" ||
-        val.split(":")[0] == "extra_emb_back_top_col" ||
-        val.split(":")[0] == "extra_flagband" ||
-        val.split(":")[0] == "extra_top_embroidery" ||
-        val.split(":")[0] == "extracover_goldedge" ||
-        val.split(":")[0] == "extracover_goldedge_col" ||
-        val.split(":")[0] == "extracover_silkeband" ||
-        val.split(":")[0] == "extracover_stars" ||
-        val.split(":")[0] == "extracover_stars_color");
-
-    trackExtraStateObj = Object.assign({}, ...Object.entries({...trackExtraStateArr}).map(([a,b]) => ({ [b.split(":")[0]]: b })))
-
-    let extraObjToArr= Object.values(trackExtraStateObj)
-
-    trackNormalStateArr = stateName.filter((val)=>
-        val.split(":")[0] == "emb_back_top_col" ||
-        val.split(":")[0] == "Model_colours" ||
-        val.split(":")[0] == "top_on_off" ||
-        val.split(":")[0] == "Flagband" ||
-        val.split(":")[0] == "Top_embroidery" ||
-        val.split(":")[0] == "streak_up" ||
-        val.split(":")[0] == "streak_up_col" ||
-        val.split(":")[0] == "silkeband" ||
-        val.split(":")[0] == "star_stitches" ||
-        val.split(":")[0] == "star_stitches_color" );
-     stateName = [];
-    trackNormalStateObj = Object.assign({}, ...Object.entries({...trackNormalStateArr}).map(([a,b]) => ({ [b.split(":")[0]]: b })))
-
-    let normalObjToArr= Object.values(trackNormalStateObj)
-
-    if(extraOn){
-        for(let i=0; i<extraObjToArr.length;i++){
-            scene.groupApplyState(extraObjToArr[i]);
-
-        }
-    }
-    else{
-        for(let i=0; i<normalObjToArr.length;i++){
-            scene.groupApplyState(normalObjToArr[i])
-        }
-    }
-
-      }
 //Desktop camera
 const desktop = {
     "Cockade": {
@@ -684,3 +815,6 @@ const mobile = {
         "time": 1000
     }
 }
+
+
+    

@@ -657,6 +657,7 @@ function onSuperBlazeReady() {
       $("#flagpatch").show();
       $("#flagpin").show();
       $("#emblemColors").show();
+      $("#starsscrownColors").show();
       $("#liningImage").show();
       $("#liningImageTop").show();
       $("#flagImageTop").show();
@@ -1986,6 +1987,7 @@ $('#embroideries').click(function(){
    $("#embroideriesBtn").toggle();
    $("#btnLiningImg").hide();
    $("#extraClassBtn").hide();
+   $("#starsscrownColorsBtn").hide();
    $("#classButtonShow").hide();
    $("#iconsBtn").hide();
    $("#classBtn").hide();
@@ -2005,6 +2007,7 @@ $('#embroideries').click(function(){
 
 $('#emblemColors').click(function(){
    $("#emblemColorBtn").toggle();
+   $("#starsscrownColorsBtn").hide();
    $("#Top_Emblem_1").hide();
    $("#Top_embroideries_1").hide();
    $("#extraClassBtn").hide();
@@ -2018,8 +2021,27 @@ $('#emblemColors').click(function(){
    $("#embLiningBtn").hide();
    $("#liningemblemColorBtn").hide();
 });
+
+$('#starsscrownColors').click(function(){
+   $("#starsscrownColorsBtn").toggle();
+   $("#emblemColorBtn").hide();
+   $("#Top_Emblem_1").hide();
+   $("#Top_embroideries_1").hide();
+   $("#extraClassBtn").hide();
+   $("#btnLiningImg").hide();
+   $("#embroideriesBtn").hide();
+   $("#flagPatchBtn").hide();
+   $("#flagPinBtn").hide();
+   $("#btnLiningImgTop").hide();
+   $("#btnFlagImgTop").hide();
+   $("#btnFlagImgLining").hide();
+   $("#embLiningBtn").hide();
+   $("#liningemblemColorBtn").hide();
+});
+
 $('#flagpin').click(function(){
    $("#flagPinBtn").toggle();
+   $("#starsscrownColorsBtn").hide();
    $("#emblemColorBtn").hide();
    $("#Top_Emblem_1").hide();
    $("#Top_embroideries_1").hide();
@@ -2035,6 +2057,7 @@ $('#flagpin').click(function(){
 });
 $('#liningImage').click(function(){
    $("#btnLiningImg").toggle();
+   $("#starsscrownColorsBtn").hide();
    $("#flagPinBtn").hide();
    $("#emblemColorBtn").hide();
    $("#Top_Emblem_1").hide();
@@ -2050,6 +2073,7 @@ $('#liningImage').click(function(){
 });
 $('#liningImageTop').click(function(){
    $("#btnLiningImgTop").toggle();
+   $("#starsscrownColorsBtn").hide();
    $("#flagPinBtn").hide();
    $("#emblemColorBtn").hide();
    $("#Top_Emblem_1").hide();
@@ -2065,6 +2089,7 @@ $('#liningImageTop').click(function(){
 });
 $('#flagImageTop').click(function(){
    $("#btnFlagImgTop").toggle();
+   $("#starsscrownColorsBtn").hide();
    $("#btnLiningImgTop").hide();
    $("#flagPinBtn").hide();
    $("#emblemColorBtn").hide();
@@ -2080,6 +2105,7 @@ $('#flagImageTop').click(function(){
 });
 $('#flagImageLining').click(function(){
    $("#btnFlagImgLining").toggle();
+   $("#starsscrownColorsBtn").hide();
    $("#btnFlagImgTop").hide();
    $("#btnLiningImgTop").hide();
    $("#flagPinBtn").hide();
@@ -2095,6 +2121,7 @@ $('#flagImageLining').click(function(){
 });
 $('#embroideriesLining').click(function(){
    $("#embLiningBtn").toggle();
+   $("#starsscrownColorsBtn").hide();
    $("#btnFlagImgTop").hide();
    $("#btnLiningImgTop").hide();
    $("#flagPinBtn").hide();
@@ -2110,6 +2137,7 @@ $('#embroideriesLining').click(function(){
 });
 $('#liningemblemColors').click(function(){
    $("#liningemblemColorBtn").toggle();
+   $("#starsscrownColorsBtn").hide();
    $("#btnFlagImgTop").hide();
    $("#btnLiningImgTop").hide();
    $("#flagPinBtn").hide();
@@ -2413,7 +2441,7 @@ function setUserInputSweatband(text,textureName,a) {
    //         texture_ref.RenderText(text,'35px scriptFont',1024,64,[0,0,1,1],align);
    //     }
    // }
-   texture_ref.RenderText(text,'35px leagueGothicFont',1024,64,[0,0,1,1],align);
+   texture_ref.RenderText(text,'52px leagueGothicFont',1024,64,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text)
 }
@@ -2605,62 +2633,62 @@ $(document).ready(function () {
    });
 
    $(".withLiningImg").click(function () {
-      if (this.id == "withLiningImg") {
-         console.log("With Lining Img");
-         scene.groupApplyState('LIN:PHOTO');
-         TestChangeTextureLining3(screens2);
-         scene.clearRefine();
-         scene.gotoPosInTime(2.794728403345009,-1.8559628877554557,-0.571974,-0.8408153648,25.501798243967038,1000);
-      } else if (this.id == "noLiningImg") {
-         console.log("No Lining Img");
-         scene.groupApplyState('LIN:NONE');
-         scene.clearRefine();
-         scene.gotoPosInTime(2.794728403345009,-1.8559628877554557,-0.571974,-0.8408153648,25.501798243967038,1000);
-      }
+      // if (this.id == "withLiningImg") {
+         // console.log("With Lining Img");
+         // scene.groupApplyState('LIN:PHOTO');
+         // TestChangeTextureLining3(screens2);
+         // scene.clearRefine();
+         // scene.gotoPosInTime(2.794728403345009,-1.8559628877554557,-0.571974,-0.8408153648,25.501798243967038,1000);
+      // } else if (this.id == "noLiningImg") {
+      //    console.log("No Lining Img");
+      //    scene.groupApplyState('LIN:NONE');
+      //    scene.clearRefine();
+      //    scene.gotoPosInTime(2.794728403345009,-1.8559628877554557,-0.571974,-0.8408153648,25.501798243967038,1000);
+      // }
    });
    $(".withFlagImgLining").click(function () {
-      if (this.id == "withFlagImgLining") {
-         console.log("withFlagImgLining Img");
-         scene.groupApplyState('LIN:FLAG');
-         TestChangeTextureLining6(screens5);
-         scene.clearRefine();
-         scene.gotoPosInTime(2.794728403345009,-1.8559628877554557,-0.571974,-0.8408153648,25.501798243967038,1000);
-      } else if (this.id == "noFlagImgLining") {
-         console.log("No FlagImgLining Img");
-         scene.groupApplyState('LIN:NONE');
-         scene.clearRefine();
-         scene.gotoPosInTime(2.794728403345009,-1.8559628877554557,-0.571974,-0.8408153648,25.501798243967038,1000);
-      }
+      // if (this.id == "withFlagImgLining") {
+      //    console.log("withFlagImgLining Img");
+      //    scene.groupApplyState('LIN:FLAG');
+      //    TestChangeTextureLining6(screens5);
+      //    scene.clearRefine();
+      //    scene.gotoPosInTime(2.794728403345009,-1.8559628877554557,-0.571974,-0.8408153648,25.501798243967038,1000);
+      // } else if (this.id == "noFlagImgLining") {
+      //    console.log("No FlagImgLining Img");
+      //    scene.groupApplyState('LIN:NONE');
+      //    scene.clearRefine();
+      //    scene.gotoPosInTime(2.794728403345009,-1.8559628877554557,-0.571974,-0.8408153648,25.501798243967038,1000);
+      // }
    });
    $(".withLiningImgTop").click(function () {
-      if (this.id == "withLiningImgTop") {
-         console.log("With top Lining Img");
-         scene.groupApplyState('HATTOP_COVER:POLY');
-         TestChangeTextureLining4(screens4);
-         scene.clearRefine();
-         // scene.gotoPosInTime(5.901626502787006,1.1992582527670728,-0.571974,-0.8408153648,25.501798243967038,1000);
-         scene.gotoPosInTime(5.929750502787008,1.710733652767073,-0.571974,-0.8408153648,25.501798243967038,1000);
-      } else if (this.id == "noLiningImgTop") {
-         console.log("No top Lining Img");
-         scene.groupApplyState('HATTOP_COVER:COT_WHITE');
-         scene.clearRefine();
-         scene.gotoPosInTime(5.929750502787008,1.710733652767073,-0.571974,-0.8408153648,25.501798243967038,1000);
-      }
+      // if (this.id == "withLiningImgTop") {
+      //    console.log("With top Lining Img");
+      //    scene.groupApplyState('HATTOP_COVER:POLY');
+      //    TestChangeTextureLining4(screens4);
+      //    scene.clearRefine();
+      //    // scene.gotoPosInTime(5.901626502787006,1.1992582527670728,-0.571974,-0.8408153648,25.501798243967038,1000);
+      //    scene.gotoPosInTime(5.929750502787008,1.710733652767073,-0.571974,-0.8408153648,25.501798243967038,1000);
+      // } else if (this.id == "noLiningImgTop") {
+      //    console.log("No top Lining Img");
+      //    scene.groupApplyState('HATTOP_COVER:COT_WHITE');
+      //    scene.clearRefine();
+      //    scene.gotoPosInTime(5.929750502787008,1.710733652767073,-0.571974,-0.8408153648,25.501798243967038,1000);
+      // }
    });
 
    $(".withFlagImgTop").click(function () {
-      if (this.id == "withFlagImgTop") {
-         console.log("With top flag Img");
-         scene.groupApplyState('HATTOP_COVER:POLY_WHITE');
-         TestChangeTextureLining5(screens5);
-         scene.clearRefine();
-         scene.gotoPosInTime(5.929750502787008,1.710733652767073,-0.571974,-0.8408153648,25.501798243967038,1000);
-      } else if (this.id == "noFlagImgTop") {
-         console.log("No top flag Img");
-         scene.groupApplyState('HATTOP_COVER:COT_WHITE');
-         scene.clearRefine();
-         scene.gotoPosInTime(5.929750502787008,1.710733652767073,-0.571974,-0.8408153648,25.501798243967038,1000);
-      }
+      // if (this.id == "withFlagImgTop") {
+      //    console.log("With top flag Img");
+      //    scene.groupApplyState('HATTOP_COVER:POLY_WHITE');
+      //    TestChangeTextureLining5(screens5);
+      //    scene.clearRefine();
+      //    scene.gotoPosInTime(5.929750502787008,1.710733652767073,-0.571974,-0.8408153648,25.501798243967038,1000);
+      // } else if (this.id == "noFlagImgTop") {
+      //    console.log("No top flag Img");
+      //    scene.groupApplyState('HATTOP_COVER:COT_WHITE');
+      //    scene.clearRefine();
+      //    scene.gotoPosInTime(5.929750502787008,1.710733652767073,-0.571974,-0.8408153648,25.501798243967038,1000);
+      // }
    });  
 
 });
@@ -2746,3 +2774,18 @@ function TestChangeTextureLining6(screenCh) {
 function embLiningOff(){
    scene.groupApplyState('LINLOGO:TOP_OFF');
 }
+
+// HMX: we have added this function for the Lining Logo position and in this function, we are using the lining text input id's like inputtext_lining_top, inputtext_lining_middle, inputtext_lining_bottom
+    // Y: Trying to make it independant from the DEMO page HTML elements, because it crushes our code. We should remove this function at all at some point, if I get it right :)
+
+    function liningLogoPosition() {
+      let lining_top = document.getElementById("inputtext_lining_top")?.value;
+      let lining_mid = document.getElementById("inputtext_lining_middle")?.value;
+      let lining_bottom = document.getElementById("inputtext_lining_bottom")?.value;
+
+      if(lining_top?.length === 0 && lining_mid?.length === 0 && lining_bottom?.length === 0 ){
+         scene.groupApplyState('LINLOGO:CENTRE_ON');
+      }else{
+         scene.groupApplyState('LINLOGO:TOP_ON');
+      }
+   }
