@@ -246,13 +246,11 @@ window.initExtra = (function() {
     }
 
     infinityrt_scene.prototype.setLiningEmblemImage = function (a, b, c, d) {
-        let imageURL = a.split("?");
-        imageURL = imageURL[0];
         this.emblemLiningStatus.prev = this.emblemLiningStatus.cur;
         this.emblemLiningStatus.cur = null;
         this.emblemLiningStatus.imgId = this.emblemLiningStatus.imgId + 1;
         this.emblemLiningStatus.cur = {
-            bump_alpha_diffuse: scene.createImage(this.emblemLiningStatus.imgId+"_bump_alpha_diffuse", imageURL),
+            bump_alpha_diffuse: scene.createImage(this.emblemLiningStatus.imgId+"_bump_alpha_diffuse", a),
             //crystal : scene.createImage(this.emblemLiningStatus.imgId+"_diffuse_crystal", d)
             // WE ASSUME WE DO NOT HAVE CRYSTAL ON ABC CAP project
         };
