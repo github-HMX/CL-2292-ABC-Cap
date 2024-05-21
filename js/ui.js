@@ -106,7 +106,7 @@ function onResetCameraClickGL() {
    animStoped = false;
    //	changeColour('option1');
    //	$("")
-   scene._nav._navMinDolly = -35;
+   scene._nav._navMinDolly = 50;
    scene.gotoUINamedPosInTime('hmxHero');
    // scene.gotoPosInTime(0,0,0,0,0,1000,function () {
    animComplete();

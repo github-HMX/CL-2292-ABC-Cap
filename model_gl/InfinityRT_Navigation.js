@@ -1,45 +1,46 @@
 // InfinityRT Navigation
-// Desktop
 
 var M_PI = 3.1415926535897932384626433832795028841968;
-var mpos = [0,0];
-var mdown = false;
-var panNav = false;
 
 var infinityrt_navigation = function (scene,w,h) {
-   this._scene = scene;
-   this._fovRecoveryOffset = 0.0;
-   this._revertPan = false;
-   this._revertPanOriginal = []; this._revertPanOriginal[0] = 0.0;  this._revertPanOriginal[1] = 0.0;
-   
-   this._navMX = this._midx = w / 2;
-   this._navMY = this._midy = h / 2; 
-   this._zoomFactor = 0.0;
-	this._navEnabled = true;
-	this._navMode = 2;
-    this._navMinDolly = -60.0;
-   this._navMaxDolly = 140;
-	this._zoomMaxFactor = this._navMaxDolly + 1 * (this._navMinDolly - this._navMaxDolly);
-	this._zoomMinFactor = this._navMaxDolly + 0 * (this._navMinDolly - this._navMaxDolly);
-	this._ellipticalNav = false;
-	this._linearFovAnim = false; //Use it only on scenes with negative dolly values. Otherwise, set it to false
-	//DESKTOP NAVIGATION VALUES*************************
-	this._navRotationSpeed = 0.015;
-	this._navDollySpeed = 0.0015;
-	this._navPanSpeed = 0.0;
-	this._navDecay = 0.3;
-	this._navMode2DecayHalflife = 150;	// General decay
-	this._navDesiredTargetSpeed = 0.1;
-   //MOBILE NAVIGATION VALUES**************************
-   var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-   if (isMobile) {
-      this._navRotationSpeed = 0.001;
-      this._navDollySpeed = 0.0005;
-      this._navPanSpeed = 0.0;
-      this._navDecay = 0.75;
-            this._navMode2DecayHalflife = 150;	// General decay)
+    this.version = "1.0.4";
+    this._scene = scene;
+    this._fovRecoveryOffset = 0.0;
+    this._revertPan = false;
+    this._revertPanOriginal = []; this._revertPanOriginal[0] = 0.0;  this._revertPanOriginal[1] = 0.0;
+
+    this._navMX = this._midx = w / 2;
+    this._navMY = this._midy = h / 2; 
+    this._zoomFactor = 0.0;
+    this._navEnabled = true;
+    this._navMode = 2;
+    this._navMinDolly = 1.0;//14.0; //50
+    this._navMaxDolly = 1000.0;//28.0; //110
+    this._zoomMaxFactor = this._navMaxDolly + 1 * (this._navMinDolly - this._navMaxDolly);
+    this._zoomMinFactor = this._navMaxDolly + 0 * (this._navMinDolly - this._navMaxDolly);
+    this._ellipticalNav = false;
+    this._linearFovAnim = false; //Use it only on scenes with negative dolly values. Otherwise, set it to false
+    this._proportionalRotation = true;
+    this._minRotProportion = 0.1;
+    //DESKTOP NAVIGATION VALUES*************************
+    this._navRotationSpeed = 0.0015;
+    this._navDollySpeed = 0.00015;
+    this._navPanSpeed = 0.04;
+    this._navDecay = 0.3;
+    this._navMode2DecayHalflife = 150;	// General decay
+    this._navDesiredTargetSpeed = 0.1;
+    //MOBILE NAVIGATION VALUES**************************
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        this._navRotationSpeed = 0.001;
+        this._navDollySpeed = 0.002;
+        this._navPanSpeed = 0.04;
+        this._navDecay = 0.75;
+        this._navMode2DecayHalflife = 150;	// General decay)
     } //************************************************ 
-    this._navDesiredTarget = null;
+    this._fRotLimitConst=0.3141592653589793; //0.48
+    this._fRotMinLimitConst = 0.0001;
+    this._navDesiredTarget=null;
     this._navGotoPosFrames = 0;
     this._navGotoPosActive = false;
     this._navGotoPosQuatFrom = null;
@@ -52,23 +53,23 @@ var infinityrt_navigation = function (scene,w,h) {
     this._navXAng = 0;
     this._navYAng = 0;
     this._navZAng = 0;
-    this._navDolly = 2;
+    this._navDolly = 0.0;
     this._navTarget = null;
     this._navMatLastView = null;
     this._navMatHierModel = null;
-    this._navPan = [0.0,0.0];
+    this._navPan = [0.0, 0.0];
     this._navQuat = {};
     this.onSample = null;
     this.lastUpdate = now();
     this._axisAllow = [true, true];
 
     // GotoFoV (Variables)
-   this._navGotoFoV = null;
-   this._navGotoFoVOnComplete = function () { };
-   this.SetFoVRange(scene.fovy,scene.fovy);
-   this._fovadjust = 0.6;
-   this._fovRecoveryOnZoom = true;
-   // Mode 2 Nav (Variables)
+    this._navGotoFoV = null;
+    this._navGotoFoVOnComplete = function () { };
+    this.SetFoVRange(scene.fovy,scene.fovy);
+    this._fovadjust = 0.6;
+    this._fovRecoveryOnZoom = true;
+    // Mode 2 Nav (Variables)
     this._navDXAng = 0;
     this._navDYAng = 0;
     this._navDPan = [0, 0];
@@ -78,16 +79,16 @@ var infinityrt_navigation = function (scene,w,h) {
     // Mode 2 Nav (Parameters)
     this._navPanDolly = -650;        // Distance when pan changes to rotation
 
-	// this._navMode2Speed = 0.03;     // Navigation speed
+    // this._navMode2Speed = 0.03;     // Navigation speed
 
-	this._panMax = [16,10];    //[left, bottom];
-	this._panMin = [-16,-10];  //[right, top];
+    this._panMax = [20,20];    //[left, bottom];
+    this._panMin = [-20,-20];  //[right, top];
 
     this._panMaxPrevious = this._panMax.slice();//[left, bottom];
     this._panMinPrevious = this._panMin.slice();//[right, top];
 
-	// slowinout easing
-   this._curveSIO = {
+    // slowinout easing
+    this._curveSIO = {
         _preInfinity: FANIM_INFINITY_CONSTANT,
         _postInfinity: FANIM_INFINITY_CONSTANT,
         _is2DCurveEvaluation: 1,
@@ -109,9 +110,19 @@ var infinityrt_navigation = function (scene,w,h) {
         ]
     };
 
-	this.InitGotoPosHelper();
-	//TODO: UPDATE nav values from file
-	return; //TODO: Remove to load navigation settings
+    infinityrt_navigation.prototype.SetProportionalRotation = function (enable, newMinRotation) {
+        this._proportionalRotation = false;
+        if ((typeof (enable) == "undefined") || enable) {
+            this._proportionalRotation = true;
+            if (typeof (newMinRotation) != "undefined") {
+                this._minRotProportion = newMinRotation;
+            }
+        }
+    };
+
+    this.InitGotoPosHelper();
+    //TODO: UPDATE nav values from file
+    return; //TODO: Remove to load navigation settings 
 	// if (this.IsMobilePlatform()){
 		// this.UpdateNavFromJSON("navsettings_mobile.json");
 		// if (this.IsAndroidPlatform())
@@ -454,9 +465,14 @@ infinityrt_navigation.prototype.NavStartGotoInTime = function (namedpos, duratio
    return this.NavStartGotoPosInTime(t.yang,t.xang,t.xpan,t.ypan,t.dolly,durationInMS,onComplete,onSample,optional);
 };
 
+infinityrt_navigation.prototype.getNavData = function(){
+    pos =[this._navYAng, this._navXAng, this._navPan[0], this._navPan[1], this._navDolly];
+    return pos;
+}
+
 infinityrt_navigation.prototype.NavSetRevertPanPos = function (xpan, ypan) {
-	this._revertPanOriginal[0] = xpan;
-   this._revertPanOriginal[1] = ypan;
+    this._revertPanOriginal[0] = xpan;
+    this._revertPanOriginal[1] = ypan;
 };
 
 infinityrt_navigation.prototype.WeightedPosUpdate = function (A,B,C,time) {
@@ -499,15 +515,6 @@ infinityrt_navigation.prototype.NavStartGotoPosInTimeWithIntermediate = function
   this._navGotoPosDelta.intermediate = true;
   // Rotation
   this._navGotoPosDelta.navXAng = { t0: this._navXAng, ti: xangI, td: xang };
-  //TODO: INTERMEDIATE NAV: Solve yangdiff
-//   var yangDiff = yang - this._navYAng;
-//   var yangDiff2 = (2 * M_PI + yang) - this._navYAng;
-//   if (Math.abs(yangDiff2) < Math.abs(yangDiff))
-//       yangDiff = yangDiff2;
-//   var yangDiff3 = (-2 * M_PI + yang) - this._navYAng;
-//   if (Math.abs(yangDiff3) < Math.abs(yangDiff))
-//       yangDiff = yangDiff3;
-//   this._navGotoPosDelta.navYAng = { t0: this._navYAng, td: yangDiff };
   this._navGotoPosDelta.navYAng = { t0: this._navYAng, ti: yangI, td: yang };
   //TODO: INTERMEDIATE NAV: implement/extend to zang and zangI
 //   if (optional && optional.zang)
@@ -680,42 +687,63 @@ infinityrt_navigation.prototype.ClearLimits  = function(){
     this._scene.setModelMatrix(this._scene._nav.NavCreateModelMatrix(this._scene._initialNavMatrix));
 };
 
-infinityrt_navigation.prototype.SetLimits = function (minRotHorz, maxRotHorz, minRotVert, maxRotVert, minDolly, maxDolly, panLeft, panRight, panBottom, panTop){
+infinityrt_navigation.prototype.SetNavLimits = function (navLimits){
+    this.SetLimits(navLimits.minRotHorz, navLimits.maxRotHorz, navLimits.minRotVert, navLimits.maxRotVert, navLimits.minDolly, navLimits.maxDolly, navLimits.panLeft, navLimits.panRight, navLimits.panBottom, navLimits.panTop, navLimits.minDollyEllipticalX, navLimits.minDollyEllipticalZ, navLimits.minDollyEllipticalOpt, navLimits.rotLimitConst, navLimits.rotMinLimitConst );
+}
+
+infinityrt_navigation.prototype.SetLimits = function (minRotHorz, maxRotHorz, minRotVert, maxRotVert, minDolly, maxDolly, panLeft, panRight, panBottom, panTop, minDollyEllipticalX, minDollyEllipticalZ, minDollyEllipticalOpt, rotLimitConst, rotMinLimitConst){
+    //Rot Limit Const (set to 0.48 with Monitors,Computers, etc.)
+    if (typeof (rotLimitConst) != "undefined" && rotLimitConst != "undefined")
+        this._fRotLimitConst = rotLimitConst;
+
+    if (typeof (rotMinLimitConst) != "undefined" && rotMinLimitConst != "undefined")
+        this._fRotMinLimitConst = rotMinLimitConst;
+    
     //We set Rot in radians internally instead of degrees
     //X Rotation Limits -> Vert
-    if (typeof (minRotVert) != "undefined")
+    if (typeof (minRotVert) != "undefined" && minRotVert != "undefined")
         this._navMinRotVert = minRotVert * M_PI / 180.0;
-    if (typeof (maxRotVert) != "undefined")
+    if (typeof (maxRotVert) != "undefined" && maxRotVert != "undefined")
         this._navMaxRotVert = maxRotVert * M_PI / 180.0;
 
     //Y Rotation Limits -> Horz
-    if (typeof (minRotHorz) != "undefined")
+    if (typeof (minRotHorz) != "undefined" && minRotHorz != "undefined")
         this._navMinRotHorz = minRotHorz * M_PI / 180.0;
-    if (typeof (maxRotHorz) != "undefined")
+    if (typeof (maxRotHorz) != "undefined" && maxRotHorz != "undefined")
         this._navMaxRotHorz = maxRotHorz * M_PI / 180.0;
 
     //Zoom limits
-    if (typeof (minDolly) != "undefined"){
+    if (typeof (minDolly) != "undefined" && minDolly != "undefined"){
         this._navMinDollyPrevious = this._navMinDolly;
         this._navMinDolly = minDolly;
     }
-    if (typeof (maxDolly) != "undefined"){
+    if (typeof (maxDolly) != "undefined" && maxDolly != "undefined"){
         this._navMaxDollyPrevious = this._navMaxDolly;
         this._navMaxDolly = maxDolly;
+    }
+    //Elliptical Nav Zoom limits
+    if (typeof (minDollyEllipticalX) != "undefined" && minDollyEllipticalX != "undefined"){
+        this._navMinDollyX = minDollyEllipticalX;
+    }
+    if (typeof (minDollyEllipticalZ) != "undefined" && minDollyEllipticalZ != "undefined"){
+        this._navMinDollyZ = minDollyEllipticalZ;
+    }
+    if (typeof (minDollyEllipticalOpt) != "undefined" && minDollyEllipticalOpt != "undefined"){
+        this._navMinDollyOpt = minDollyEllipticalOpt;
     }
     //Pan Limits
     this._panMaxPrevious = this._panMax.slice();
     this._panMinPrevious = this._panMin.slice();
-    if (typeof (panLeft) != "undefined"){
+    if (typeof (panLeft) != "undefined" && panLeft != "undefined"){
         this._panMax[0] = panLeft;
     }
-    if (typeof (panBottom) != "undefined"){
+    if (typeof (panBottom) != "undefined" && panBottom != "undefined"){
         this._panMax[1] = panBottom;
     }
-    if (typeof (panRight) != "undefined"){
+    if (typeof (panRight) != "undefined" && panRight != "undefined"){
         this._panMin[0] = panRight;
     }
-    if (typeof (panTop) != "undefined"){
+    if (typeof (panTop) != "undefined" && panTop != "undefined"){
         this._panMin[1] = panTop;
     }
     //this._panMaxPrevious[0] = [16,10];    //[left, bottom];
@@ -726,6 +754,42 @@ infinityrt_navigation.prototype.SetLimits = function (minRotHorz, maxRotHorz, mi
     this._scene.setModelMatrix(this._scene._nav.NavCreateModelMatrix(this._scene._initialNavMatrix));
 }
 
+infinityrt_navigation.prototype.SetNavSpeeds = function (navSpeedsDesktop, navSpeedsMobile){
+    if (this.IsMobilePlatform()){
+        if (typeof (navSpeedsMobile) != "undefined"){
+            //MOBILE NAVIGATION VALUES*************************
+            if (typeof (navSpeedsMobile.rotationSpeed) != "undefined")
+                this._navRotationSpeed = navSpeedsMobile.rotationSpeed;
+            if (typeof (navSpeedsMobile.dollySpeed) != "undefined")
+                this._navDollySpeed = navSpeedsMobile.dollySpeed;
+            if (typeof (navSpeedsMobile.panSpeed) != "undefined")
+                this._navPanSpeed = navSpeedsMobile.panSpeed;
+            if (typeof (navSpeedsMobile.decay) != "undefined")
+                this._navDecay = navSpeedsMobile.decay;
+            if (typeof (navSpeedsMobile.mode2DecayHalflife) != "undefined")
+                this._navMode2DecayHalflife = navSpeedsMobile.mode2DecayHalflife;
+            if (typeof (navSpeedsMobile.desiredTargetSpeed) != "undefined")
+                this._navDesiredTargetSpeed = navSpeedsMobile.desiredTargetSpeed;
+        }
+    }
+    else {
+        if (typeof (navSpeedsDesktop) != "undefined"){
+            //DESKTOP NAVIGATION VALUES*************************
+            if (typeof (navSpeedsDesktop.rotationSpeed) != "undefined")
+                this._navRotationSpeed = navSpeedsDesktop.rotationSpeed;
+            if (typeof (navSpeedsDesktop.dollySpeed) != "undefined")
+                this._navDollySpeed = navSpeedsDesktop.dollySpeed;
+            if (typeof (navSpeedsDesktop.panSpeed) != "undefined")
+                this._navPanSpeed = navSpeedsDesktop.panSpeed;
+            if (typeof (navSpeedsDesktop.decay) != "undefined")
+                this._navDecay = navSpeedsDesktop.decay;
+            if (typeof (navSpeedsDesktop.mode2DecayHalflife) != "undefined")
+                this._navMode2DecayHalflife = navSpeedsDesktop.mode2DecayHalflife;
+            if (typeof (navSpeedsDesktop.desiredTargetSpeed) != "undefined")
+                this._navDesiredTargetSpeed = navSpeedsDesktop.desiredTargetSpeed;
+        }
+    }
+}
 
 infinityrt_navigation.prototype.NavStartGotoPosQuat = function (qw, qx, qy, qz, xpan, ypan, dolly, numFrames, onComplete, onSample) {
     if (this._navMode == 0)
@@ -773,16 +837,64 @@ infinityrt_navigation.prototype.NavCreateViewMatrix = function (initialViewMatri
     this._navMatLastView = initialViewMatrix;
     if (this._navMode == 0 || this._navMode == 2) {
         if (this._navMode == 2) {
-          
+
             var decay = mdown ? this._navDecay : Math.pow(0.5, (timestamp - this.lastUpdate) / this._navMode2DecayHalflife);
             this._navChange = false;
             if (this._navDXAng != 0.0 || this._navDYAng != 0.0 || this._navDPan[0] != 0.0 || this._navDPan[1] != 0.0 || this._navDDolly != 0.0 || this._navFDolly !=0) {
+            // Dolly
+            this._navDolly += this._navDDolly;
+            if (this._navDDolly != 0.0) {
+                if (this._navDolly < this._navMinDolly) {
+                    this._navDolly = this._navMinDolly;
+                    if (this._navDDolly < 0)
+                        this._navDDolly = 0;
+                }
+                else if (this._navDolly > this._navMaxDolly) {
+                    this._navDolly = this._navMaxDolly;
+                    if (this._navDDolly > 0)
+                        this._navDDolly = 0;
+                }
+            }
+
+            var rotProportion = 1.0;
+            var panProportion = 1.0;
+            if (this._proportionalRotation){
+                var minPanProportion = this._minRotProportion * 2.0;
+                //
+                var dollyRange = this._navMaxDolly - this._navMinDolly;
+                var dollyRelPos = this._navDolly - this._navMinDolly;
+                rotProportion = this._minRotProportion + dollyRelPos*(1.0-this._minRotProportion)/dollyRange;
+                panProportion = minPanProportion + dollyRelPos*(1.0-minPanProportion)/dollyRange;
+            }
+
+            // Pan
+            this._navPan[0] += this._navDPan[0]*panProportion;
+            this._navPan[1] += this._navDPan[1]*panProportion;
+            if (this._navPan[0] > this._panMax[0]) {
+                this._navPan[0] = this._panMax[0];
+                this._navDPan[0] = 0;
+            }
+            if (this._navPan[1] > this._panMax[1]) {
+                this._navPan[1] = this._panMax[1];
+                this._navDPan[1] = 0;
+            }
+            if (this._navPan[0] < this._panMin[0]) {
+                this._navPan[0] = this._panMin[0];
+                this._navDPan[0] = 0;
+            }
+            if (this._navPan[1] < this._panMin[1]) {
+                this._navPan[1] = this._panMin[1];
+                this._navDPan[1] = 0;
+            }
             // Rotation
-            this._navXAng += this._navDXAng;
-            this._navYAng += this._navDYAng;
-            var fRotLimit = M_PI * 0.48;
+            this._navXAng += this._navDXAng*rotProportion;
+            this._navYAng += this._navDYAng*rotProportion;
+            //var fRotLimit = M_PI * 0.48;
+            //var fRotMinLimit = -M_PI * 0.48;
+            var fRotLimit = M_PI * this._fRotLimitConst;//0.3141592653589793;
             // var fRotMinLimit = -M_PI * this.tempfRotMinLimit;
-            var fRotMinLimit = -M_PI * 0.48;
+            //var fRotMinLimit = -M_PI * 0.0001;
+            var fRotMinLimit = -M_PI * this._fRotMinLimitConst;
             if (this._navXAng > fRotLimit)
                this._navXAng = fRotLimit;
             else if (this._navXAng < fRotMinLimit)
@@ -803,41 +915,8 @@ infinityrt_navigation.prototype.NavCreateViewMatrix = function (initialViewMatri
                 while (this._navYAng < 0.0) this._navYAng += 2 * M_PI;
             while (this._navYAng > 2 * M_PI) this._navYAng -= 2 * M_PI;
 
-            // Pan
-            this._navPan[0] += this._navDPan[0];
-                this._navPan[1] += this._navDPan[1];
-                if (this._navPan[0] > this._panMax[0]) {
-                    this._navPan[0] = this._panMax[0];
-                    this._navDPan[0] = 0;
-                }
-                if (this._navPan[1] > this._panMax[1]) {
-                    this._navPan[1] = this._panMax[1];
-                    this._navDPan[1] = 0;
-                }
-                if (this._navPan[0] < this._panMin[0]) {
-                    this._navPan[0] = this._panMin[0];
-                    this._navDPan[0] = 0;
-                }
-                if (this._navPan[1] < this._panMin[1]) {
-                    this._navPan[1] = this._panMin[1];
-                    this._navDPan[1] = 0;
-                }
-                // Dolly
-                this._navDolly += this._navDDolly;
-                if (this._navDDolly != 0.0) {
-                    if (this._navDolly < this._navMinDolly) {
-                        this._navDolly = this._navMinDolly;
-                        if (this._navDDolly < 0)
-                            this._navDDolly = 0;
-                    }
-                    else if (this._navDolly > this._navMaxDolly) {
-                  this._navDolly = this._navMaxDolly;
-                  if (this._navDDolly > 0)
-                        this._navDDolly = 0;
-                }
             
-               
-            }
+                
                 
                 this._navDolly += this._navFDolly;
                 if (this._navFDolly != 0.0) {
@@ -888,7 +967,7 @@ infinityrt_navigation.prototype.NavCreateViewMatrix = function (initialViewMatri
                 else if (this._navGotoPosEnableSlowInOut)
                     s0 = slowinout(s0, this._scene._slowinoutfac);
                 if (this._navGotoPosDelta.intermediate){
-                    //TODO: Comes from NavStartGotoPosInTimeWithIntermediate
+                    //Comes from NavStartGotoPosInTimeWithIntermediate
                     this._navXAng = this.WeightedPosUpdate(this._navGotoPosDelta.navXAng.t0, this._navGotoPosDelta.navXAng.ti, this._navGotoPosDelta.navXAng.td, s0);
                     this._navYAng = this.WeightedPosUpdate(this._navGotoPosDelta.navYAng.t0, this._navGotoPosDelta.navYAng.ti, this._navGotoPosDelta.navYAng.td, s0);
                     //We skip navZAng at the moment
@@ -906,7 +985,7 @@ infinityrt_navigation.prototype.NavCreateViewMatrix = function (initialViewMatri
                     if (this._navTarget && this._navGotoPosDelta.navTarget)
                         this._navTarget = infinityrt_vertex_scladd(this._navGotoPosDelta.navTarget.t0, this._navGotoPosDelta.navTarget.td, s0);
                 }
-                if (this._navGotoPosDelta.navFFac){
+                if (this._navGotoPosDelta.navFFac){ 
                     var interpfac=this._navGotoPosDelta.navFFac.t0 + s0*this._navGotoPosDelta.navFFac.td;
                     var interps=interpfac/this._navDolly;
                     this._scene.fovy = 2.0*(180.0/3.141592658)*Math.asin(interps);
@@ -1055,12 +1134,17 @@ infinityrt_navigation.prototype.NavCreateViewMatrix = function (initialViewMatri
     return this._navMatLastView;
 };
 
-infinityrt_navigation.prototype.enableEllipticalNav = function (valueA, valueB, valueCOpt) {
+infinityrt_navigation.prototype.useEllipticalNav = function (bEnable) {
+    this._ellipticalNav = bEnable;
+}
+
+//enableEllipticalNav is Deprecated. Please use SetNavLimits and useEllipticalNav instead.
+infinityrt_navigation.prototype.enableEllipticalNav = function (minDollyX, minDollyZ, minDollyOpt) {
     this._ellipticalNav = true;
-    this._navMinDollyX = valueA;
-    this._navMinDollyZ = valueB;
-    if(valueCOpt)
-        this._navMinDollyOpt = valueCOpt
+    this._navMinDollyX = minDollyX;
+    this._navMinDollyZ = minDollyZ;
+    if(minDollyOpt)
+        this._navMinDollyOpt = minDollyOpt;
 }
 
 infinityrt_navigation.prototype.NavCreateModelMatrix = function (initialViewMatrix) {
@@ -1165,7 +1249,7 @@ infinityrt_navigation.prototype.ApplyRestrictionAdjust = function (fovadjust) {
     // FoV
     var dir = this._fovMax - this._scene.fovy;
     var adir = Math.abs(dir);
-    if (adir > fovadjust) {
+    if (this._fovRecoveryOnZoom && adir > fovadjust) {
       dir /= adir;
       var ofov = this._scene.fovy;
       this._scene.fovy += dir * fovadjust;
@@ -1195,6 +1279,10 @@ infinityrt_navigation.prototype.ApplyRestrictionAdjust = function (fovadjust) {
     }
 }
 
+infinityrt_navigation.prototype.setFoVRecoveryOnZoom = function (bEnable) {
+    this._fovRecoveryOnZoom = bEnable;
+}
+
 infinityrt_navigation.prototype.getZoomFactor = function () {
 
    this._zoomMaxFactor = this._navMaxDolly + 1 * (this._navMinDolly - this._navMaxDolly);
@@ -1203,7 +1291,7 @@ infinityrt_navigation.prototype.getZoomFactor = function () {
    // Autoadjust this._zoomMaxFactor or this._zoomMinFactor if needed
    var dir = this._fovMax - this._scene.fovy;
    var adir = Math.abs(dir);
-   if (adir > this._fovadjust) {
+   if (this._fovRecoveryOnZoom && adir > this._fovadjust) {
 	   if (!this._navMaxDollyOriginal){
 		   this._navMaxDollyOriginal = this._navMaxDolly;
 	   }
@@ -1215,8 +1303,8 @@ infinityrt_navigation.prototype.getZoomFactor = function () {
 			//Autoadjust this._zoomMaxFactor so _navDolly doesn't change
 			this._navMinDolly = this._navMinDollyOriginal * fovRatio;
 			this._navMaxDolly = this._navMaxDollyOriginal * fovRatio;
-			this._zoomMaxFactor = this._navMaxDolly + 1 * (this._navMinDolly - this._navMaxDolly);
-			this._zoomMinFactor = this._navMaxDolly + 0 * (this._navMinDolly - this._navMaxDolly);
+            this._zoomMaxFactor = this._navMaxDollyOriginal + 1 * (this._navMinDollyOriginal - this._navMaxDollyOriginal);
+			this._zoomMinFactor = this._navMaxDollyOriginal + 0 * (this._navMinDollyOriginal - this._navMaxDollyOriginal);
 	   //}
    } else {
 	   if (this._navMinDollyOriginal && this._navMaxDollyOriginal){
@@ -1225,8 +1313,8 @@ infinityrt_navigation.prototype.getZoomFactor = function () {
 				//Autoadjust this._zoomMaxFactor so _navDolly doesn't change
 				this._navMinDolly = this._navMinDollyOriginal * fovRatio;
 				this._navMaxDolly = this._navMaxDollyOriginal * fovRatio;
-				this._zoomMaxFactor = this._navMaxDolly + 1 * (this._navMinDolly - this._navMaxDolly);
-				this._zoomMinFactor = this._navMaxDolly + 0 * (this._navMinDolly - this._navMaxDolly);
+				this._zoomMaxFactor = this._navMaxDollyOriginal + 1 * (this._navMinDollyOriginal - this._navMaxDollyOriginal);
+				this._zoomMinFactor = this._navMaxDollyOriginal + 0 * (this._navMinDollyOriginal - this._navMaxDollyOriginal);
 		   //}
 	   }
 	   this._navMaxDollyOriginal = undefined;
@@ -1352,9 +1440,9 @@ infinityrt_navigation.prototype.NavRotation = function (mpos, mdelta) {
    else {
       this._navXAng -= mdelta[1] / 30.0;
       this._navYAng += mdelta[0] / 30.0;
-      var fRotLimit = M_PI * 0.48;
+      var fRotLimit = M_PI * this._fRotLimitConst;//0.48;
       // var fRotMinLimit = -M_PI * this.tempfRotMinLimit;
-      var fRotMinLimit = -M_PI * 0.48;
+      var fRotMinLimit = -M_PI * this._fRotMinLimitConst;//0.48;
       if (this._navXAng > fRotLimit)
             this._navXAng = fRotLimit;
         else if (this._navXAng < fRotMinLimit)
