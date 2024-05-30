@@ -7,7 +7,7 @@
    <script type="text/javascript" src="js/browserDetect.js"></script>
 
    <script type="text/javascript" src="../js/ui.js"></script>
-   <script type="text/javascript" src="../model_gl/SSE.js"></script>
+   <script type="text/javascript" src="js/SSE.js"></script>
    <script type="text/javascript" src="https://content.hmxmedia.com/DIST/webglutils.js"></script>
    <script type="text/javascript" src="js/ctm.js"></script>
    <script type="text/javascript" src="js/lzma.js"></script>
@@ -310,8 +310,8 @@
    <div id="embroideriesBtn" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 6%;left: 5px;">
       <!-- <button id="emblem_1" class="emblem_btn" onclick="scene.setTopEmblemImage('../images_gl/emblems/Emblem_Bohuslan_alpha.jpg', '../images_gl/emblems/Emblem_Bohuslan_normal.jpg', '../images_gl/emblems/Emblem_Bohuslan_diffuse.jpg', '../images_gl/emblems/Emblem_Bohuslan_diffuse_Crystal.jpg');"> EMBTOP 1</button> -->
       <button id="emblem_1" class="emblem_btn" onclick="scene.setTopEmblemImage('../images_gl/emblems/Emblem_2.png');scene.groupApplyState('EMBTOP:ON');"> 3DSYMBOL_SYMBCROWN</button>
-      <button id="emblem_4" class="emblem_btn" onclick="scene.setTopEmblemImageDiamond('../images_gl/emblems/threecrown_dia_norm.png');scene.groupApplyState('EMBTOP:SWAROV_STRASS');"> SWAROV_STRASS3CROWNS</button>
-      <button id="emblem_5" class="emblem_btn" onclick="scene.setTopEmblemImageDiamond('../images_gl/emblems/crown_dia_normal.png');scene.groupApplyState('EMBTOP:SWAROV_STRASS');"> SWAROV_STRASSCROWN</button>
+      <button id="emblem_4" class="emblem_btn" onclick="scene.setTopEmblemImageDiamond('../images_gl/emblems/three_crowns.png');scene.groupApplyState('EMBTOP:SWAROV_STRASS');"> SWAROV_STRASS3CROWNS</button>
+      <button id="emblem_5" class="emblem_btn" onclick="scene.setTopEmblemImageDiamond('../images_gl/emblems/krona_dimond.png');scene.groupApplyState('EMBTOP:SWAROV_STRASS');"> SWAROV_STRASSCROWN</button>
    </div>
    <div class="btnemblemColors">
       <button id="emblemColors" style="display: none;">EMBTOP COL</button>
@@ -371,7 +371,7 @@
       </div>   
       <div class="btnLiningImg" id="btnLiningImg" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 7%;left: 1008px;">
          <button id="withLiningImgNew" class="withLiningImg" onclick="scene.customImageTopAndLining('../images_gl/screen/custom_lining_image_2.png', 'lining');scene.groupApplyState('LIN:PHOTO');">LINING IMAGE</button>
-         <button id="noLiningImg" class="withLiningImg" onclick="scene.customImageTopAndLining('../images_gl/screen/custom_lining_image_2.png', 'lining');scene.groupApplyState('LIN:NONE');">NONE</button>
+         <button id="noLiningImg" class="withLiningImg" onclick="scene.groupApplyState('LIN:NONE');">NONE</button>
       </div>
       <!-- Lining Image END -->
 
@@ -381,7 +381,7 @@
       </div>   
       <div class="btnLiningImgTop" id="btnLiningImgTop" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 7%;left: 568px;">
          <button id="withLiningImgTopNew" class="withLiningImgTop" onclick="scene.customImageTopAndLining('../images_gl/screen/custom_lining_image_2.png', 'top');scene.groupApplyState('HATTOP_COVER:POLY');">TOP IMAGE</button>
-         <button id="noLiningImgTop" class="withLiningImgTop" onclick="scene.customImageTopAndLining('../images_gl/screen/custom_lining_image_2.png', 'top');scene.groupApplyState('HATTOP_COVER:COT_WHITE');">NONE</button>
+         <button id="noLiningImgTop" class="withLiningImgTop" onclick="scene.groupApplyState('HATTOP_COVER:COT_WHITE');">NONE</button>
       </div>
       <!--Top Lining Image END -->
 
@@ -390,8 +390,8 @@
          <button id="flagImageLining" style="display: none;">CUSTOM LINING FLAG</button>
       </div>   
       <div class="btnFlagImgLining" id="btnFlagImgLining" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 7%;left: 851px;">
-         <button id="withFlagImgLiningNew" class="withFlagImgLining" onclick="scene.customFlagTopAndLining('../images_gl/screen/flag_1.png', 'top');scene.groupApplyState('LIN:FLAG');">FLAG IMAGE</button>
-         <button id="noFlagImgLining" class="withFlagImgLining" onclick="scene.customImageTopAndLining('../images_gl/screen/custom_lining_image_2.png', 'top');scene.groupApplyState('LIN:NONE');">NONE</button>
+         <button id="withFlagImgLiningNew" class="withFlagImgLining" onclick="scene.customFlagTopAndLining('../images_gl/screen/flag_1.png', 'lining');scene.groupApplyState('LIN:FLAG');">FLAG IMAGE</button>
+         <button id="noFlagImgLining" class="withFlagImgLining" onclick="scene.groupApplyState('LIN:NONE');">NONE</button>
       </div>
       <!--Custom Flag END -->
 
@@ -400,10 +400,8 @@
          <button id="flagImageTop" style="display: none;">CUSTOM TOP FLAG</button>
       </div>   
       <div class="btnFlagImgTop" id="btnFlagImgTop" style="position: absolute;width: auto;z-index: 99;display: none;bottom: 7%;left: 712px;">
-         <button id="withFlagImgLiningNew" class="withFlagImgTop" onclick="scene.customFlagTopAndLining('../images_gl/screen/flag_1.png', 'lining');scene.groupApplyState('HATTOP_COVER:POLY_WHITE');">FLAG IMAGE</button>
-         <button id="noFlagImgTop" class="withFlagImgTop" onclick="scene.customImageTopAndLining('../images_gl/screen/custom_lining_image_2.png', 'lining');scene.groupApplyState('HATTOP_COVER:COT_WHITE');">NONE</button>
-         <!-- <button id="withFlagImgTop" class="withFlagImgTop">FLAG IMAGE</button> -->
-         <!-- <button id="noFlagImgTop" class="withFlagImgTop">NONE</button> -->
+         <button id="withFlagImgLiningNew" class="withFlagImgTop" onclick="scene.customFlagTopAndLining('../images_gl/screen/flag_1.png', 'top');scene.groupApplyState('HATTOP_COVER:POLY_WHITE');">FLAG IMAGE</button>
+         <button id="noFlagImgTop" class="withFlagImgTop" onclick="scene.groupApplyState('HATTOP_COVER:COT_WHITE');">NONE</button>
       </div>
       <!--Custom Top Flag END -->
 

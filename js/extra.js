@@ -384,11 +384,7 @@ window.initExtra = (function() {
     }
 
     infinityrt_scene.prototype.customImageTopAndLining = function(url, location){
-        console.log(url);
-        console.log(location);
-        
-        // var selectMaterial = location.toLowerCase() == "top" ? "AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE_copy" : "AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE";
-        if(location.toLowerCase() == "top") {
+       if(location.toLowerCase() == "top") {
             scene.customImageTopAndLining1 = scene.createImage("customImage", url);
             var selectMaterial1 ="AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE_copy";
             if (scene) {
@@ -409,13 +405,9 @@ window.initExtra = (function() {
         
     }
     infinityrt_scene.prototype.customFlagTopAndLining = function(url, location){
-        console.log(url);
-        console.log(location);
-        
-        // var selectMaterial = location.toLowerCase() == "top" ? "AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE_copy" : "AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE";
-        if(location.toLowerCase() == "top") {
+         if(location.toLowerCase() == "top") {
             scene.customFlagTopAndLining1 = scene.createImage("customImage", url);
-            var selectMaterial1 ="SS_inner_normal_image_part_env_copy";
+            var selectMaterial1 ="AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE";            
             if (scene) {
                 var mat1 = scene._Material_ref[selectMaterial1];
                 mat1.setTexture(scene.customFlagTopAndLining1,TEXTURE_MAP_ADDITIONALTEX);
@@ -424,7 +416,7 @@ window.initExtra = (function() {
         }
         else if(location.toLowerCase() == "lining") {
             scene.customFlagTopAndLining2 = scene.createImage("customImage", url);
-            var selectMaterial2 ="AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE";
+            var selectMaterial2 ="SS_inner_normal_image_part_env_copy";
             if (scene) {
                 var mat2 = scene._Material_ref[selectMaterial2];
                 mat2.setTexture(scene.customFlagTopAndLining2,TEXTURE_MAP_ADDITIONALTEX);
