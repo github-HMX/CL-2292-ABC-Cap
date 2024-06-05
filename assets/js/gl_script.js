@@ -2180,14 +2180,14 @@ function setUserInputBackTop(text,textureName,a) {
    if (a) align = a
    if(currentfont=='fontCal'){
       if(isMac){
-         texture_ref.RenderText(text,'45px scriptFont',1024,74,[0,0,1,1],align);
+         texture_ref.RenderText(text,'37px scriptFont',1024,74,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'45px scriptFont',1024,64,[0,0,1,1],align);
+         texture_ref.RenderText(text,'37px scriptFont',1024,64,[0,0,1,1],align);
       }
    }else if(currentfont=='fontTNR'){
-      texture_ref.RenderText(text,'45px serifFont',1024,64,[0,0,1,1],align);
+      texture_ref.RenderText(text,'37px serifFont',1024,64,[0,0,1,1],align);
    }else if(currentfont=='fontCLS'){
-      texture_ref.RenderText(text,'55px classicFont',1024,64,[0,0,1,1],align);
+      texture_ref.RenderText(text,'47px classicFont',1024,64,[0,0,1,1],align);
    }
    
    scene.clearRefine();
@@ -2200,15 +2200,15 @@ function setUserInputLeft(text,textureName,a) {
    if (a) align = a
    if(currentfont3=='fontCal3'){
          if(isMac){
-            texture_ref.RenderText(text,'72px scriptFont',1024,80,[0,0,1,1],align);
+            texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
          }
        else{
-            texture_ref.RenderText(text,'72px scriptFont',1024,80,[0,0,1,1],align);
+            texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
        }
    }  else if(currentfont3=='fontTNR3'){
-      texture_ref.RenderText(text,'65px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'58px serifFont',1024,80,[0,0,1,1],align);
    }  else if(currentfont3=='fontCLS3'){
-      texture_ref.RenderText(text,'82px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'75px classicFont',1024,80,[0,0,1,1],align);
    } 
    scene.clearRefine();
    console.log("call setUserInput",text)
@@ -2220,14 +2220,14 @@ function setUserInputRight(text,textureName,a) {
    if (a) align = a
    if(currentfont4=='fontCal4'){
       if(isMac){
-         texture_ref.RenderText(text,'72px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'72px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
       }
    }else if(currentfont4=='fontTNR4'){
-      texture_ref.RenderText(text,'65px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'58px serifFont',1024,80,[0,0,1,1],align);
    }else if(currentfont4=='fontCLS4'){
-      texture_ref.RenderText(text,'82px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'75px classicFont',1024,80,[0,0,1,1],align);
    }
    // texture_ref.RenderText(text,'45px scriptFont',1024,64,[0,0,1,1],align);
    scene.clearRefine();
@@ -2240,14 +2240,14 @@ function setUserInputBackBottom(text,textureName,a) {
    if (a) align = a
    if(currentfont5=='fontCal5'){
       if(isMac){
-         texture_ref.RenderText(text,'60px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'60px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
       }
    }else if(currentfont5=='fontTNR5'){
-      texture_ref.RenderText(text,'60px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'55px serifFont',1024,80,[0,0,1,1],align);
    }else if(currentfont5=='fontCLS5'){
-      texture_ref.RenderText(text,'68px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'63px classicFont',1024,80,[0,0,1,1],align);
    }
    // texture_ref.RenderText(text,'40px scriptFont',1024,64,[0,0,1,1],align);
    scene.clearRefine();
@@ -2258,7 +2258,7 @@ function setUserInputPeakEngTop(text,textureName,a) {
    var texture_ref = scene._Texture_ref[textureName];
    var align = "center";
    if (a) align = a
-   texture_ref.RenderText(text,'105px leagueGothicFont',2048,128,[0,0,1,1],align);
+   texture_ref.RenderText(text,'90px leagueGothicFont',2048,128,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text);
    scene.groupApplyState('ENGRPEAK:TWOLINES');
@@ -2277,7 +2277,7 @@ function setUserInputPeakEngMid(text,textureName,a) {
    var texture_ref = scene._Texture_ref[textureName];
    var align = "center";
    if (a) align = a
-   texture_ref.RenderText(text,'105px leagueGothicFont',2048,128,[0,0,1,1],align);
+   texture_ref.RenderText(text,'95px leagueGothicFont',2048,128,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text)
    scene.groupApplyState('ENGRPEAK:TWOLINES');
@@ -2297,7 +2297,7 @@ function setUserInputPeakEngBottom(text,textureName,a) {
    var texture_ref = scene._Texture_ref[textureName];
    var align = "center";
    if (a) align = a
-   texture_ref.RenderText(text,'105px leagueGothicFont',2048,128,[0,0,1,1],align);
+   texture_ref.RenderText(text,'95px leagueGothicFont',2048,128,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text)
    if(text.length === 0){ 
@@ -2314,14 +2314,14 @@ function setUserInputEmbhatTop(text,textureName,a) {
    // texture_ref.RenderText(text,'45px classicFont',1024,64,[0,0,1,1],align);
    if(currentfont6=='fontCal6'){
       if(isMac){
-         texture_ref.RenderText(text,'70px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'70px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
       }
    }else if(currentfont6=='fontTNR6'){
-      texture_ref.RenderText(text,'50px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'45px serifFont',1024,80,[0,0,1,1],align);
    }else if(currentfont6=='fontCLS6'){
-      texture_ref.RenderText(text,'80px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'75px classicFont',1024,80,[0,0,1,1],align);
    }
    scene.clearRefine();
    console.log("call setUserInput",text)
@@ -2334,14 +2334,14 @@ function setUserInputEmbhatMiddle(text,textureName,a) {
    // texture_ref.RenderText(text,'45px classicFont',1024,64,[0,0,1,1],align);
    if(currentfont7=='fontCal7'){
       if(isMac){
-         texture_ref.RenderText(text,'70px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'70px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
       }
    }else if(currentfont7=='fontTNR7'){
-      texture_ref.RenderText(text,'50px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'45px serifFont',1024,80,[0,0,1,1],align);
    }else if(currentfont7=='fontCLS7'){
-      texture_ref.RenderText(text,'80px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'75px classicFont',1024,80,[0,0,1,1],align);
    }
    scene.clearRefine();
    console.log("call setUserInput",text)
@@ -2354,14 +2354,14 @@ function setUserInputEmbhatBottom(text,textureName,a) {
    // texture_ref.RenderText(text,'45px classicFont',1024,64,[0,0,1,1],align);
    if(currentfont8=='fontCal8'){
       if(isMac){
-         texture_ref.RenderText(text,'70px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'70px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'65px scriptFont',1024,80,[0,0,1,1],align);
       }
    }else if(currentfont8=='fontTNR8'){
-      texture_ref.RenderText(text,'50px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'45px serifFont',1024,80,[0,0,1,1],align);
    }else if(currentfont8=='fontCLS8'){
-      texture_ref.RenderText(text,'80px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'75px classicFont',1024,80,[0,0,1,1],align);
    }
    scene.clearRefine();
    console.log("call setUserInput",text)
@@ -2374,14 +2374,14 @@ function setUserInputLiningMiddle(text,textureName,a) {
    // texture_ref.RenderText(text,'30px scriptFont',1024,64,[0,0,1,1],align);
    if(currentfont10=='fontCal10'){
       if(isMac){
-         texture_ref.RenderText(text,'60px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'60px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
       }
    }else if(currentfont10=='fontTNR10'){
-      texture_ref.RenderText(text,'60px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'55px serifFont',1024,80,[0,0,1,1],align);
    }else if(currentfont10=='fontCLS10'){
-      texture_ref.RenderText(text,'70px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'65px classicFont',1024,80,[0,0,1,1],align);
    }
    scene.clearRefine();
    console.log("call setUserInput",text)
@@ -2395,14 +2395,14 @@ function setUserInputLiningTop(text,textureName,a) {
    // texture_ref.RenderText(text,'30px scriptFont',1024,64,[0,0,1,1],align);
    if(currentfont9=='fontCal9'){
       if(isMac){
-         texture_ref.RenderText(text,'60px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'60px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
       }
    }else if(currentfont9=='fontTNR9'){
-      texture_ref.RenderText(text,'60px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'55px serifFont',1024,80,[0,0,1,1],align);
    }else if(currentfont9=='fontCLS9'){
-      texture_ref.RenderText(text,'70px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'65px classicFont',1024,80,[0,0,1,1],align);
    }
    scene.clearRefine();
    console.log("call setUserInput",text)
@@ -2416,14 +2416,14 @@ function setUserInputLiningBottom(text,textureName,a) {
    // texture_ref.RenderText(text,'30px scriptFont',1024,64,[0,0,1,1],align);
    if(currentfont11=='fontCal11'){
       if(isMac){
-         texture_ref.RenderText(text,'60px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'60px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
       }
    }else if(currentfont11=='fontTNR11'){
-      texture_ref.RenderText(text,'60px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'55px serifFont',1024,80,[0,0,1,1],align);
    }else if(currentfont11=='fontCLS11'){
-      texture_ref.RenderText(text,'70px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'65px classicFont',1024,80,[0,0,1,1],align);
    }
    scene.clearRefine();
    console.log("call setUserInput",text)
@@ -2441,7 +2441,7 @@ function setUserInputSweatbandTop(text,textureName,a) {
    //         texture_ref.RenderText(text,'35px scriptFont',1024,64,[0,0,1,1],align);
    //     }
    // }
-   texture_ref.RenderText(text,'58px leagueGothicFont',1024,64,[0,0,1,1],align);
+   texture_ref.RenderText(text,'54px leagueGothicFont',1024,64,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text)
 }
@@ -2457,7 +2457,7 @@ function setUserInputSweatbandBotttom(text,textureName,a) {
    //         texture_ref.RenderText(text,'35px scriptFont',1024,64,[0,0,1,1],align);
    //     }
    // }
-   texture_ref.RenderText(text,'58px leagueGothicFont',1024,64,[0,0,1,1],align);
+   texture_ref.RenderText(text,'54px leagueGothicFont',1024,64,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text)
 }
