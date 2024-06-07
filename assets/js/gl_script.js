@@ -2187,7 +2187,7 @@ function setUserInputBackTop(text,textureName,a) {
    }else if(currentfont=='fontTNR'){
       texture_ref.RenderText(text,'37px serifFont',1024,64,[0,0,1,1],align);
    }else if(currentfont=='fontCLS'){
-      texture_ref.RenderText(text,'47px classicFont',1024,64,[0,0,1,1],align);
+      texture_ref.RenderText(text,'46px classicFont',1024,64,[0,0,1,1],align);
    }
    
    scene.clearRefine();
@@ -2240,14 +2240,14 @@ function setUserInputBackBottom(text,textureName,a) {
    if (a) align = a
    if(currentfont5=='fontCal5'){
       if(isMac){
-         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'61px scriptFont',1024,80,[0,0,1,1],align);
       }else{
-         texture_ref.RenderText(text,'55px scriptFont',1024,80,[0,0,1,1],align);
+         texture_ref.RenderText(text,'61px scriptFont',1024,80,[0,0,1,1],align);
       }
    }else if(currentfont5=='fontTNR5'){
-      texture_ref.RenderText(text,'55px serifFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'61px serifFont',1024,80,[0,0,1,1],align);
    }else if(currentfont5=='fontCLS5'){
-      texture_ref.RenderText(text,'63px classicFont',1024,80,[0,0,1,1],align);
+      texture_ref.RenderText(text,'73px classicFont',1024,80,[0,0,1,1],align);
    }
    // texture_ref.RenderText(text,'40px scriptFont',1024,64,[0,0,1,1],align);
    scene.clearRefine();
@@ -2521,6 +2521,14 @@ $(document).ready(function () {
    /*Nammed Band*/
 
    var elements = document.getElementsByClassName('inputCustomText');
+   const textShift = (text) => {
+         if(["Q","W","E","R","T","Y","U","O","P","S","D","F","G","H","J","K","Z","X","C","V","B","N","M"].includes(text[0])){
+            scene.groupApplyState('EMBFR:ON_GEO2');
+         } else{
+            scene.groupApplyState('EMBFR:ON');
+         }
+   }
+
    for (var i = 0; i < elements.length; i++) {
       elements[i].addEventListener('input',function (event) {
 
@@ -2559,8 +2567,8 @@ $(document).ready(function () {
             setUserInputLeft(text,"Text_nameband_FL.png","right");
             scene.groupApplyState('EMB_NAMEBAND_FRONT:EMB_NAMEBAND_FRONT_ON');
          } else if (this.id == "inputtext_right") {
-            setUserInputRight(text,"Text_nameband_FR.png","left");
-            scene.groupApplyState('EMB_NAMEBAND_FRONT:EMB_NAMEBAND_FRONT_ON');
+            setUserInputRight(text,"Text_nameband_FR.png","left");     
+               textShift(text);
          } else if (this.id == "inputtext_BackBottom") {
             setUserInputBackBottom(text,"Font_Text.png","center");
          } else if (this.id == "inputtext_Peak_Eng_Top") {
