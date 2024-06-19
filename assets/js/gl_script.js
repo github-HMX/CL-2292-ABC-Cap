@@ -597,8 +597,17 @@ function updateProgressBar() {
    $("#loaderbar").css("width",newwidth + "px");
 }
 
+
+
 var firstLoad = true;
 function onSuperBlazeReady() {
+
+   //Render embroidery text onload
+   scene.groupApplyState('EMBFR:ON');
+   var texture_ref = scene._Texture_ref["Text_nameband_FR.png"];
+   texture_ref.RenderText("Silver",'65px scriptFont',1024,80,[0,0,1,1],"left");
+   scene.clearRefine();
+   
 
    scene._jitRadius = 2.5;
    scene._zNearMin = 18.0;
@@ -742,6 +751,10 @@ function SuperblazeStart(gl) {
       //if (typeof(onInit()) != 'undefined') onInit();
    }
    initDragCursor();
+
+
+
+
 }
 var mob = (navigator.userAgent.indexOf("iPhone") != -1) || ((navigator.userAgent.indexOf("Android") != -1) || (navigator.userAgent.indexOf("Mobile") != -1)) || (navigator.userAgent.indexOf('iPod') != -1);
 
@@ -1807,7 +1820,7 @@ function ChangeTextTo(text) {
 }
 
 function ChangeTextTo3(text) {
-   textShiftLeft(text);
+   textShiftLeft();
    if (currentfont3 == "fontCal3") {
       console.log("fontCal3");
       setUserInputLeft(text,"Text_nameband_FL.png","right");
@@ -2182,7 +2195,7 @@ function setUserInputBackTop(text,textureName,a) {
    if (a) align = a
    if(currentfont=='fontCal'){
       if(isMac){
-         texture_ref.RenderText(text,'36px scriptFont',1024,74,[0,0,1,1],align);
+         texture_ref.RenderText(text,'36px scriptFont',1024,64,[0,0,1,1],align);
       }else{
          texture_ref.RenderText(text,'36px scriptFont',1024,64,[0,0,1,1],align);
       }
@@ -2260,7 +2273,7 @@ function setUserInputPeakEngTop(text,textureName,a) {
    var texture_ref = scene._Texture_ref[textureName];
    var align = "center";
    if (a) align = a
-   texture_ref.RenderText(text,'90px leagueGothicFont',2048,128,[0,0,1,1],align);
+   texture_ref.RenderText(text,'95px leagueGothicFont',2048,128,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text);
    scene.groupApplyState('ENGRPEAK:TWOLINES');
@@ -2468,7 +2481,7 @@ function setUserInputSweatbandBotttom(text,textureName,a) {
 var open = false;
 
 const textShiftRight = (text) => {
-   if(["Q","W","R","Y","U","O","P","S","D","F","H","K","Z","X","C","V","B","N","M"].includes(text[0]) && (currentfont4 == "fontCal4")){
+   if(["Q","W","R","Y","U","O","P","S","D","F","K","C","V","B"].includes(text[0]) && (currentfont4 == "fontCal4")){
       scene.groupApplyState('EMBFR:ON_GEO2');
    } else if (currentfont4 == "fontTNR4") {
       scene.groupApplyState('EMBFR:ON_GEO3');
@@ -2479,14 +2492,12 @@ const textShiftRight = (text) => {
    }
 }
 
-const textShiftLeft = (text) => {
+const textShiftLeft = () => {
    if(currentfont3 == "fontCal3"){
-      scene.groupApplyState('EMBFR:ON_L');
-   } else if (currentfont3 == "fontTNR3") {
-      scene.groupApplyState('EMBFR:ON_GEO2_L ');
-   } else  {
+      scene.groupApplyState('EMBFR:ON_GEO2_L');
+   } else {
       scene.groupApplyState('EMBFR:ON_GEO3_L');
-   } 
+   }
 }
 
 $(document).ready(function () {
@@ -2583,15 +2594,13 @@ $(document).ready(function () {
 
          }else if (this.id == "inputtext_left") {
             setUserInputLeft(text,"Text_nameband_FL.png","right");
-            textShiftLeft(text);
-            // scene.groupApplyState('EMB_NAMEBAND_FRONT:EMB_NAMEBAND_FRONT_ON');
+            textShiftLeft();
          } else if (this.id == "inputtext_right") {
             setUserInputRight(text,"Text_nameband_FR.png","left");     
             textShiftRight(text);
          } else if (this.id == "inputtext_BackBottom") {
             setUserInputBackBottom(text,"Font_Text.png","center");
          } else if (this.id == "inputtext_Peak_Eng_Top") {
-            // checkCase();
             setUserInputPeakEngTop(text,"PEAK_TEXT_LINE_1.png","center");
          } else if (this.id == "inputtext_Peak_Eng_Mid") {
             setUserInputPeakEngMid(text,"PEAK_TEXT_LINE_2.png","center");
