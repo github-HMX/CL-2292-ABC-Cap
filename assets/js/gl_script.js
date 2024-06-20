@@ -600,14 +600,7 @@ function updateProgressBar() {
 
 
 var firstLoad = true;
-function onSuperBlazeReady() {
-
-   //Render embroidery text onload
-   scene.groupApplyState('EMBFR:ON');
-   var texture_ref = scene._Texture_ref["Text_nameband_FR.png"];
-   texture_ref.RenderText("Silver",'65px scriptFont',1024,80,[0,0,1,1],"left");
-   scene.clearRefine();
-   
+function onSuperBlazeReady() {   
 
    scene._jitRadius = 2.5;
    scene._zNearMin = 18.0;
@@ -2276,7 +2269,7 @@ function setUserInputPeakEngTop(text,textureName,a) {
    texture_ref.RenderText(text,'95px leagueGothicFont',2048,128,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text);
-   scene.groupApplyState('ENGRPEAK:TWOLINES');
+   peakEngTextAlignment()
    // if(text.length === 0){
    //    if(document.getElementById("inputtext__Peak_Eng_Bottom") !=  null){
    //       document.getElementById("inputtext__Peak_Eng_Bottom").style.display = "none"
@@ -2295,8 +2288,8 @@ function setUserInputPeakEngMid(text,textureName,a) {
    texture_ref.RenderText(text,'95px leagueGothicFont',2048,128,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text)
-   scene.groupApplyState('ENGRPEAK:TWOLINES');
-   // if(text.length === 0){
+   peakEngTextAlignment();
+      // if(text.length === 0){
    //    if(document.getElementById("inputtext__Peak_Eng_Bottom") !=  null){
    //       document.getElementById("inputtext__Peak_Eng_Bottom").style.display = "none"
    //    }
@@ -2315,11 +2308,7 @@ function setUserInputPeakEngBottom(text,textureName,a) {
    texture_ref.RenderText(text,'95px leagueGothicFont',2048,128,[0,0,1,1],align);
    scene.clearRefine();
    console.log("call setUserInput",text)
-   if(text.length === 0){ 
-      scene.groupApplyState('ENGRPEAK:TWOLINES');
-   }else{
-      scene.groupApplyState('ENGRPEAK:THREELINES');  
-   }      
+   peakEngTextAlignment();     
 }
 
 function setUserInputEmbhatTop(text,textureName,a) {
@@ -2400,7 +2389,8 @@ function setUserInputLiningMiddle(text,textureName,a) {
    }
    scene.clearRefine();
    console.log("call setUserInput",text)
-   liningLogoPosition()
+   liningLogoPosition();
+   liningTextAlignment();
 }
 function setUserInputLiningTop(text,textureName,a) {
    var texture_ref = scene._Texture_ref[textureName];
@@ -2422,6 +2412,7 @@ function setUserInputLiningTop(text,textureName,a) {
    scene.clearRefine();
    console.log("call setUserInput",text)
    liningLogoPosition();
+   liningTextAlignment();
 }
 function setUserInputLiningBottom(text,textureName,a) {
    var texture_ref = scene._Texture_ref[textureName];
@@ -2443,6 +2434,7 @@ function setUserInputLiningBottom(text,textureName,a) {
    scene.clearRefine();
    console.log("call setUserInput",text)
    liningLogoPosition();
+   liningTextAlignment();
 }
 function setUserInputSweatbandTop(text,textureName,a) {
    var texture_ref = scene._Texture_ref[textureName];
@@ -2481,7 +2473,7 @@ function setUserInputSweatbandBotttom(text,textureName,a) {
 var open = false;
 
 const textShiftRight = (text) => {
-   if(["Q","W","R","Y","U","O","P","S","D","F","K","C","V","B"].includes(text[0]) && (currentfont4 == "fontCal4")){
+   if(["Q","W","Y","U","O","D","C","V"].includes(text[0]) && (currentfont4 == "fontCal4")){
       scene.groupApplyState('EMBFR:ON_GEO2');
    } else if (currentfont4 == "fontTNR4") {
       scene.groupApplyState('EMBFR:ON_GEO3');
@@ -2498,6 +2490,39 @@ const textShiftLeft = () => {
    } else {
       scene.groupApplyState('EMBFR:ON_GEO3_L');
    }
+}
+
+//Apply state based on text input 
+function liningTextAlignment(){
+   
+   let lining_top = document.getElementById("inputtext_lining_top").value;
+   let lining_mid = document.getElementById("inputtext_lining_middle").value;
+   let lining_bottom = document.getElementById("inputtext_lining_bottom").value;
+
+   if(lining_top !== "" && lining_mid === "" && lining_bottom === ""){ //if text is top line only 
+      scene.groupApplyState('EMBLIN:ON_1_LINE');
+   } else if(lining_top !== "" && lining_mid !== "" && lining_bottom === ""){//if text is middle line only
+      scene.groupApplyState('EMBLIN:ON_2_LINE');  
+   } else if(lining_top !== "" && lining_mid !== "" && lining_bottom !== ""){//if text is bottom line only 
+      scene.groupApplyState('EMBLIN:ON');
+   }
+
+}
+
+function peakEngTextAlignment(){
+   
+   let peakEng_top = document.getElementById("inputtext_Peak_Eng_Top").value;
+   let peakEng_mid = document.getElementById("inputtext_Peak_Eng_Mid").value;
+   let peakEng_bottom = document.getElementById("inputtext__Peak_Eng_Bottom").value;
+
+   if(peakEng_top !== "" && peakEng_mid === "" && peakEng_bottom === ""){ //if text is top line only 
+      scene.groupApplyState('ENGRPEAK:ONELINE');
+   } else if(peakEng_top !== "" && peakEng_mid !== "" && peakEng_bottom === ""){//if text is middle line only 
+      scene.groupApplyState('ENGRPEAK:TWOLINES');  
+   } else if(peakEng_top !== "" && peakEng_mid !== "" && peakEng_bottom !== ""){//if text is bottom line only  
+      scene.groupApplyState('ENGRPEAK:THREELINES');
+   }
+
 }
 
 $(document).ready(function () {
@@ -2570,16 +2595,10 @@ $(document).ready(function () {
             setUserInputBackTop(text,"Text_upsala_lunda.png","center");
          } else if (this.id == "inputtext_lining_top") {
             setUserInputLiningTop(text,"Text_lining_Top.png","center");
-            scene.groupApplyState('EMBLIN:EMBLIN_ON');
-
          } else if (this.id == "inputtext_lining_middle") {
             setUserInputLiningMiddle(text,"Text_lining.png","center");
-            scene.groupApplyState('EMBLIN:EMBLIN_ON');
-
          } else if (this.id == "inputtext_lining_bottom") {
             setUserInputLiningBottom(text,"Text_lining_Bottom.png","center");
-            scene.groupApplyState('EMBLIN:EMBLIN_ON');
-
          }else if (this.id == "Embhat_top") {
             setUserInputEmbhatTop(text,"Text_lining_Top_Cap_Front.png","center");
             scene.groupApplyState('EMBHATTOP:EMBHATTOP_ON');
@@ -2831,14 +2850,15 @@ function embLiningOff(){
 // HMX: we have added this function for the Lining Logo position and in this function, we are using the lining text input id's like inputtext_lining_top, inputtext_lining_middle, inputtext_lining_bottom
     // Y: Trying to make it independant from the DEMO page HTML elements, because it crushes our code. We should remove this function at all at some point, if I get it right :)
 
-    function liningLogoPosition() {
-      let lining_top = document.getElementById("inputtext_lining_top")?.value;
-      let lining_mid = document.getElementById("inputtext_lining_middle")?.value;
-      let lining_bottom = document.getElementById("inputtext_lining_bottom")?.value;
+function liningLogoPosition() {
+   let lining_top = document.getElementById("inputtext_lining_top")?.value;
+   let lining_mid = document.getElementById("inputtext_lining_middle")?.value;
+   let lining_bottom = document.getElementById("inputtext_lining_bottom")?.value;
 
-      if(lining_top?.length === 0 && lining_mid?.length === 0 && lining_bottom?.length === 0 ){
-         scene.groupApplyState('LINLOGO:CENTRE_ON');
-      }else{
-         scene.groupApplyState('LINLOGO:TOP_ON');
-      }
+   if(lining_top?.length === 0 && lining_mid?.length === 0 && lining_bottom?.length === 0 ){
+      scene.groupApplyState('LINLOGO:CENTRE_ON');
+      scene.groupApplyState('EMBLIN:OFF');
+   }else{
+      scene.groupApplyState('LINLOGO:TOP_ON');      
    }
+}
