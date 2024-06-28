@@ -2475,12 +2475,10 @@ var open = false;
 const textShiftRight = (text) => {
    if(["Q","W","Y","U","O","D","C","V"].includes(text[0]) && (currentfont4 == "fontCal4")){
       scene.groupApplyState('EMBFR:ON_GEO2');
-   } else if (currentfont4 == "fontTNR4") {
-      scene.groupApplyState('EMBFR:ON_GEO3');
-   } else if (currentfont4 == "fontCLS4") {
+   } else if (currentfont4 == "fontTNR4" || currentfont4 == "fontCLS4") {
       scene.groupApplyState('EMBFR:ON_GEO3');
    } else {
-      scene.groupApplyState('EMBFR:ON');
+      scene.groupApplyState('EMBFR:ON_GEO1');
    }
 }
 
@@ -2857,7 +2855,7 @@ function liningLogoPosition() {
 
    if(lining_top?.length === 0 && lining_mid?.length === 0 && lining_bottom?.length === 0 ){
       scene.groupApplyState('LINLOGO:CENTRE_ON');
-      scene.groupApplyState('EMBLIN:OFF');
+      scene.groupApplyState('EMBLIN:NONE');
    }else{
       scene.groupApplyState('LINLOGO:TOP_ON');      
    }
