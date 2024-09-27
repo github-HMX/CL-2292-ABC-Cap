@@ -3,6 +3,8 @@ var mob = (navigator.userAgent.indexOf("iPhone") != -1) || ((navigator.userAgent
 var isipad = (/CriOS/i.test(navigator.userAgent) && /ipad/i.test(navigator.userAgent)) || (navigator.userAgent.indexOf('iPad') != -1) ||
    (navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
 
+let chromeLinuxAndroidOS = (navigator.userAgent.indexOf('Linux') != -1) || (navigator.userAgent.indexOf('Android') != -1) || (navigator.userAgent.indexOf('CrOS') != -1);
+
 window.initExtra = (function() {
     "use strict";
     infinityrt_scene.prototype.emblemStatus = { cur: null, prev: null , imgId : 0};
@@ -384,7 +386,8 @@ window.initExtra = (function() {
     }
 
     infinityrt_scene.prototype.customImageTopAndLining = function(url, location){
-       if(location.toLowerCase() == "top") {
+        
+        if(location.toLowerCase() == "top") {
             scene.customImageTopAndLining1 = scene.createImage("customImage", url);
             var selectMaterial1 ="AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE_copy";
             if (scene) {
@@ -405,7 +408,8 @@ window.initExtra = (function() {
         
     }
     infinityrt_scene.prototype.customFlagTopAndLining = function(url, location){
-         if(location.toLowerCase() == "top") {
+       
+        if(location.toLowerCase() == "top") {
             scene.customFlagTopAndLining1 = scene.createImage("customImage", url);
             var selectMaterial1 ="AAAAA_top_image_set_07_uppsala_glossy_mat_env_WHITE";            
             if (scene) {
@@ -443,6 +447,59 @@ window.initExtra = (function() {
             a.doffocusdist && (this._fDoFFocusPos = a.doffocusdist),
             this.gotoPosInTime(a.pos[0], a.pos[1], a.pos[2], a.pos[3], a.pos[4], b, c, d, e))
     }
+
+    infinityrt_texture.prototype.RenderText = function (text, font, w, h, vp, txtalign) {
+        
+        var fontVerticalAlignmentFactor = 2;
+        var gl = this._scene.gl;
+        var spriteCanvas = document.createElement('canvas');
+        //window.document.body.appendChild(spriteCanvas);
+        this.width = spriteCanvas.width = w;
+        this.height = spriteCanvas.height = h;
+        this.vp = vp;
+        var ctx = spriteCanvas.getContext('2d', { alpha: false });
+        ctx.font = font;
+        ctx.fillStyle = "#ffffff";
+        ctx.textBaseline = 'middle';
+        
+        if(chromeLinuxAndroidOS && font.indexOf("scriptFont") != -1){
+            fontVerticalAlignmentFactor = 1.5
+        }
+        
+        if (txtalign == 'left') {
+            ctx.textAlign = txtalign;
+            ctx.fillText(text, 0.05*w, h / fontVerticalAlignmentFactor);
+        }
+        else if (txtalign == 'right') {
+            ctx.textAlign = txtalign;
+            ctx.fillText(text, 0.89*w,h / fontVerticalAlignmentFactor);
+        }
+        else {
+            ctx.textAlign = "center";
+            ctx.fillText(text, w / 2, h / fontVerticalAlignmentFactor);
+        }
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        var tx = this._scene._Textures[this.tex_id];
+        if (tx == null) {
+            tx = this._scene._Textures[this.tex_id] = gl.createTexture();
+        }
+        gl.bindTexture(gl.TEXTURE_2D, tx);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, this.filtering);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, this.filtering);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, spriteCanvas);
+        gl.bindTexture(gl.TEXTURE_2D, null);
+        this.loaded = true;
+        if (this.type == "FromBrowser") {
+            this._scene.texDependencyTracking = false;
+            this.UpdateDirectAndIndirect();
+            this._scene.texDependencyTracking = true;
+        }
+        else
+            this.CheckDependence();
+        return true;
+     };
 
 });
 
