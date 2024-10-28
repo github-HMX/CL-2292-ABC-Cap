@@ -4,6 +4,7 @@ var isipad = (/CriOS/i.test(navigator.userAgent) && /ipad/i.test(navigator.userA
    (navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
 
 let chromeLinuxAndroidOS = (navigator.userAgent.indexOf('Linux') != -1) || (navigator.userAgent.indexOf('Android') != -1) || (navigator.userAgent.indexOf('CrOS') != -1);
+let isAndroidFirefox = navigator.userAgent.toLowerCase().includes('firefox') && navigator.userAgent.toLowerCase().includes("android");
 
 window.initExtra = (function() {
     "use strict";
@@ -460,10 +461,19 @@ window.initExtra = (function() {
         var ctx = spriteCanvas.getContext('2d', { alpha: false });
         ctx.font = font;
         ctx.fillStyle = "#ffffff";
-        ctx.textBaseline = 'middle';
+        if(isAndroidFirefox && font.toLowerCase().indexOf("scriptfont") != -1){
+            ctx.textBaseline = 'bottom';
+        } else {
+            ctx.textBaseline = 'middle';
+        }
         
-        if(chromeLinuxAndroidOS && font.indexOf("scriptFont") != -1){
+        if(chromeLinuxAndroidOS && font.toLowerCase().indexOf("scriptfont") != -1){
             fontVerticalAlignmentFactor = 1.5
+        }
+
+        if(isAndroidFirefox && font.toLowerCase().indexOf("scriptfont") != -1){
+            fontVerticalAlignmentFactor = 4;
+            h = h + 20;
         }
         
         if (txtalign == 'left') {
